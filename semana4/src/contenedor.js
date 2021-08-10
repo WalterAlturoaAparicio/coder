@@ -13,7 +13,7 @@ class Contenedor {
       await this.getAll();
       this.data.map((product) => {
         if (product.title === obj.title)
-          throw new Error(`El producto ya esta en la lista`);
+          throw new Error(`El producto ${obj.title} ya esta en la lista `);
       });
       let newObj = {
         title: obj.title,
@@ -29,53 +29,53 @@ class Contenedor {
       );
       return this.id;
     } catch (error) {
-      throw new Error(`Error al guardar: ${error}`);
+      throw new Error(`El producto ${obj.title} ya esta en la lista `);
     }
   }
 
   async getById(id) {
-    await this.getAll();
-    let retornar = null;
-    this.data.map((product) => {
-      if (product.id === id) {
-        //console.log(product);
-        retornar = product;
+    try {
+      await this.getAll();
+      let retornar = null;
+      this.data.map((product) => {
+        if (product.id === id) {
+          retornar = product;
+        }
+      });
+      if (retornar === null) {
+        throw new Error('producto no encontrado')
       }
-    });
-    if (retornar === null) {
-      retornar = {
-        error: "producto no encontrado",
-      };
+      return retornar;
+    } catch (error) {
+      throw error
     }
-    return retornar;
   }
-  // async modifyProduct(obj) {
-  //   try {
-  //     await this.getAll();
-  //     let producto = await this.getById(obj.id);
-  //     console.log(producto);
-  //     if (producto.error)
-  //       throw new Error(product.error);
+  async modifyProduct(obj) {
+    try {
+      await this.getAll();
+      let producto = await this.getById(obj.id);
+      if (producto.error) throw new Error(producto.error);
 
-  //     this.data.map((product) => {
-  //       if (producto.id === product.id) {
-  //         product.title = obj.title;
-  //         product.price = obj.price;
-  //         product.thumbnail = obj.thumbnail;
-  //       }
-  //     });
-  //     await fs.promises.writeFile(
-  //       this.archivo,
-  //       JSON.stringify(this.data, null, 2)
-  //     );
-  //   } catch (error) {
-  //     throw new Error(`Error al guardar: ${error}`);
-  //   }
-  // }
+      this.data.map((product) => {
+        if (producto.id === product.id) {
+          product.title = obj.title;
+          product.price = obj.price;
+          product.thumbnail = obj.thumbnail;
+        }
+      });
+      await fs.promises.writeFile(
+        this.archivo,
+        JSON.stringify(this.data, null, 2)
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async getAll() {
     try {
       const data = await fs.promises.readFile(this.archivo, "utf-8");
+      if (data == []) throw new Error("No hay productos");
       if (data) {
         this.data = JSON.parse(data);
         this.data.map((product) => {
@@ -86,22 +86,27 @@ class Contenedor {
         });
       }
     } catch (error) {
-      return [];
+      throw error;
     }
   }
 
   async deleteById(id) {
     try {
       await this.getAll();
+
+      let productError = await this.getById(id);
+      if (productError.error) throw new Error(producto.error);
+
       this.data = this.data.filter((product) => {
         return product.id !== id;
       });
+
       await fs.promises.writeFile(
         this.archivo,
         JSON.stringify(this.data, null, 2)
       );
     } catch (error) {
-      throw new Error(`Error en la escritura: ${error}`);
+      throw error;
     }
   }
   async deleteAll() {
