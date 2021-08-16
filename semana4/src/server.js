@@ -46,7 +46,7 @@ routerProductos.post("/", async (req, res) => {
       price: req.body.price,
       thumbnail: req.body.thumbnail,
     });
-    res.status(200).redirect(301, "api/productos");
+    res.status(200).redirect(301, "/api/productos");
   } catch (error) {
     //console.log(error);
     res.status(400).json({
