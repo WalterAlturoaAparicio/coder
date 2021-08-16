@@ -9,28 +9,24 @@ class Contenedor {
   }
 
   async save(obj) {
-    try {
-      await this.getAll();
-      this.data.map((product) => {
-        if (product.title === obj.title)
-          throw new Error(`El producto ${obj.title} ya esta en la lista `);
-      });
-      let newObj = {
-        title: obj.title,
-        price: obj.price,
-        thumbnail: obj.thumbnail,
-        id: this.id,
-      };
-      this.data.push(newObj);
-      this.id++;
-      await fs.promises.writeFile(
-        this.archivo,
-        JSON.stringify(this.data, null, 2)
-      );
-      return this.id;
-    } catch (error) {
-      throw new Error(`El producto ${obj.title} ya esta en la lista `);
-    }
+    await this.getAll();
+    this.data.map((product) => {
+      if (product.title === obj.title)
+        throw new Error(`El producto ${obj.title} ya esta en la lista `);
+    });
+    let newObj = {
+      title: obj.title,
+      price: obj.price,
+      thumbnail: obj.thumbnail,
+      id: this.id,
+    };
+    this.data.push(newObj);
+    this.id++;
+    await fs.promises.writeFile(
+      this.archivo,
+      JSON.stringify(this.data, null, 2)
+    );
+    return this.id;
   }
 
   async getById(id) {
@@ -43,11 +39,11 @@ class Contenedor {
         }
       });
       if (retornar === null) {
-        throw new Error('producto no encontrado')
+        throw new Error("producto no encontrado");
       }
       return retornar;
     } catch (error) {
-      throw error
+      throw error;
     }
   }
   async modifyProduct(obj) {

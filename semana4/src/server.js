@@ -23,7 +23,7 @@ routerProductos.get("/", async (req, res) => {
   } catch (error) {
     // console.log(error);
     res.json({
-      error: 'No hay productos',
+      error: "No hay productos",
     });
   }
 });
@@ -33,8 +33,8 @@ routerProductos.get("/:id", async (req, res) => {
     res.status(200).send(await contenedor.getById(Number(req.params.id)));
   } catch (error) {
     // console.log(error);
-    res.json({
-      error: 'producto no encontrado',
+    res.status(404).json({
+      error: "producto no encontrado",
     });
   }
 });
@@ -46,10 +46,10 @@ routerProductos.post("/", async (req, res) => {
       price: req.body.price,
       thumbnail: req.body.thumbnail,
     });
-    res.status(200).redirect(301, "/api/productos");
+    res.status(200).redirect(301, "api/productos");
   } catch (error) {
     //console.log(error);
-    res.json({
+    res.status(400).json({
       error: error.message,
     });
   }
@@ -69,8 +69,8 @@ routerProductos.put("/:id", async (req, res) => {
       nuevo: await contenedor.getById(Number(req.params.id)),
     });
   } catch (error) {
-    res.json({
-      error: 'producto no encontrado',
+    res.status(404).json({
+      error: "producto no encontrado",
     });
   }
 });
@@ -85,7 +85,7 @@ routerProductos.delete("/:id", async (req, res) => {
     });
   } catch (error) {
     res.json({
-      error: 'producto no encontrado',
+      error: "producto no encontrado",
     });
   }
 });
