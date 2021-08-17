@@ -1,0 +1,27 @@
+html
+    head 
+        title PUG
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
+    body 
+        div(style="margin: 20px; width: 25%;")
+            h4(style="color: blue; font-weight: bold;") Vista de Productos
+            if exist
+                table(class="table table-dark")
+                    thead 
+                        tr 
+                            th(style="width: 50%;") Nombre
+                            th(style="width: 30%;") Precio
+                            th(style="width: 20%;") Foto
+                    each product in data 
+                        tr(style="height: 50px;")
+                            td=product.title 
+                            td=(`$${product.price}`)
+                            td 
+                                img(src=product.thumbnail, alt="foto" class="img-fluid img-thumbnail")
+            else 
+                div(class="alert alert-warning") No hay productos
+                    
+
+
+            a(href="/") 
+                button(class="btn btn-primary") Volver

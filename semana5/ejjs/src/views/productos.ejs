@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <title>EJS</title>
+</head>
+<body>
+    <div style="margin: 20px; width: 25%;">
+        <h4 style="color: blue; font-weight: bold;">Vista de Productos</h4>
+        <% if (exist) { %>
+          <table class="table table-dark">
+            <thead>
+              <tr>
+                <th style="width: 50%;">Nombre</th>
+                <th style="width: 30%;">Precio</th>
+                <th style="width: 20%;">Foto</th>
+              </tr>
+            </thead>
+      
+            <% data.forEach(function(product){ %>
+              <tr style="height: 50px;">
+                <td><%= product.title %></td>
+                <td>$<%= product.price %></td>
+                <td><img
+                    src="<%= product.thumbnail %>"
+                    alt="foto"
+                    class="img-fluid img-thumbnail"
+                  /></td>
+              </tr>
+            <% }); %>
+              
+          </table>
+        <% } else { %>
+          <div class="alert alert-warning">
+            No hay productos
+          </div>
+        <% } %>
+        <a href="/">
+          <button class="btn btn-primary">Volver</button>
+        </a>
+      </div>
+</body>
+</html>

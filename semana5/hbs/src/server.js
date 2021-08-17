@@ -1,17 +1,14 @@
 /* eslint-disable no-undef */
 const express = require("express");
 const handlebars = require("express-handlebars");
-const { Router } = express;
 const { Contenedor } = require("./contenedor.js");
 
 const app = express();
-const routerProductos = new Router();
-const port = 8081;
+const port = 8080;
 let contenedor = new Contenedor("./src/productos.txt");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/productos", routerProductos);
 
 app.engine(
   "hbs",
@@ -25,7 +22,7 @@ app.set("views", "./src/views");
 app.set("view engine", "hbs");
 
 app.get("/", (req, res) => {
-  res.render("main", {});
+  res.render("main");
 });
 app.get("/productos", async (req, res) => {
   try {
