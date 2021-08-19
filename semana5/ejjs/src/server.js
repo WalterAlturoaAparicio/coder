@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const { Contenedor } = require("./contenedor.js");
 
-const port = 8082;
+const port = 8080;
 let contenedor = new Contenedor("./src/productos.txt");
 
 app.use(express.json());
