@@ -3,7 +3,7 @@ const express = require("express");
 const { Contenedor } = require("./contenedor.js");
 
 const app = express();
-const port = 8081;
+const port = 8080;
 let contenedor = new Contenedor("./src/productos.txt");
 
 app.use(express.json());
