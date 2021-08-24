@@ -2,6 +2,7 @@
 const express = require("express");
 const handlebars = require("express-handlebars");
 const emoji = require("node-emoji");
+const moment = require("moment");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 
@@ -18,20 +19,32 @@ const io = new IOServer(httpServer, {
 const port = 8082;
 let contenedor = new Contenedor("./src/productos.txt");
 
-// io.on("connection", (socket) => {
-//   socket.on("dataFront", async (data) => {
-//     try {
-//         console.log(data);
-//       await contenedor.save({
-//         title: data.title,
-//         price: data.price,
-//         thumbnail: data.thumbnail,
-//       });
-//     } catch (error) {
-//         throw new Error("erorrrrrrr", error);
-//     }
-//   });
-// });
+const messages = [
+]
+io.on("connection", (socket) => {
+  socket.on("dataFront", async (data) => {
+    try {
+      await contenedor.save({
+        title: data.title,
+        price: data.price,
+        thumbnail: data.thumbnail,
+      });
+    } catch (error) {
+      socket.emit('errores', {error});
+    }
+  });
+  const fecha = moment().format();
+
+  socket.emit('messageBackend', messages);
+  socket.on("messageFront", (data) => {
+    messages.push({
+			email: data.email,
+			message: data.message,
+      fecha,
+		});
+    io.sockets.emit("messageBackend", messages);
+  });
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,6 +59,9 @@ app.engine(
 app.set("views", "./src/views");
 app.set("view engine", "hbs");
 
+// app.get('/', (req, res) => {
+// 	res.render("main");
+// })
 app.get("/", async (req, res) => {
   try {
     await contenedor.getAll();

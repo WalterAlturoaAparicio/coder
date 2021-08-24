@@ -1,43 +1,48 @@
-<form onsubmit="addProduct()" style="width: 20%; margin: 20px;">
-  <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Ingrese
-    el Producto</h4>
-  <div class="form-group">
-    <label for="title" style="font-weight: bold;">Title</label>
-    <input
-      type="text"
-      name="title"
-      id="title"
-      placeholder="Enter Title"
-      class="form-control"
-      required
-    />
-  </div>
-  <div class="form-group">
-    <label for="price" style="font-weight: bold;">Price</label>
-    <input
-      type="number"
-      name="price"
-      class="form-control"
-      id="price"
-      required
-    />
-  </div>
-  <div class="form-group">
-    <label for="thumbnail" style="font-weight: bold;">Thumbnail Link</label>
-    <input
-      type="text"
-      name="thumbnail"
-      id="thumbnail"
-      placeholder="Enter Thumbnail Link"
-      class="form-control"
-      required
-    />
-  </div>
-  <div>
-    <button id="send" type="submit" class="btn btn-success">Guardar</button>
-  </div>
+<fieldset>
+  <form onsubmit="addProduct()" style="width: 20%; margin: 20px;">
+    <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Ingrese
+      el Producto</h4>
+    <div class="form-group">
+      <label for="title" style="font-weight: bold;">Title</label>
+      <input
+        type="text"
+        name="title"
+        id="title"
+        placeholder="Enter Title"
+        class="form-control"
+        required
+      />
 
-</form>
+    </div>
+    <div class="form-group">
+      <label for="price" style="font-weight: bold;">Price</label>
+      <input
+        type="number"
+        name="price"
+        class="form-control"
+        id="price"
+        required
+      />
+
+    </div>
+    <div class="form-group">
+      <label for="thumbnail" style="font-weight: bold;">Thumbnail Link</label>
+      <input
+        type="text"
+        name="thumbnail"
+        id="thumbnail"
+        placeholder="Enter Thumbnail Link"
+        class="form-control"
+        required
+      />
+
+    </div>
+    <div>
+      <button id="send" type="submit" class="btn btn-success">Guardar</button>
+    </div>
+
+  </form>
+</fieldset>
 <div style="margin: 20px; width: 25%;">
   {{! <h4 style="color: blue; font-weight: bold;">Vista de Productos</h4> }}
   {{#if exist}}
@@ -72,51 +77,64 @@
 <div style="width: 40%; margin: 20px; background-color: rgb(207, 207, 207);">
   <div style="padding: 10px; margin: 20px;">
     <h4 style="color: #0000ff; font-weight: bold; ">Centro de Mensajes</h4>
-    <form onSubmit="addMessage()">
-      <div class="form-group">
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter email"
-          class="form-control"
-          required
-        />
-      </div>
-      <div style="height: 40px; background-color: beige;" id="messages">
-
-      </div>
-      <div
-        style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px;"
-      >
-        <div style="margin-right: 20px; width: 80%;">
+    <fieldset>
+      <form onsubmit="addMessage()">
+        <div class="form-group">
           <input
-            type="text"
-            name="message"
-            placeholder="Enter message"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter email"
             class="form-control"
             required
           />
         </div>
-
-        <button type="submit" class="btn btn-primary">Enviar</button>
-      </div>
-      <div>
-
-      </div>
-    </form>
+        
+        <div style="background-color: beige;" id="messages"></div>
+        
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px;">
+          <div style="margin-right: 20px; width: 80%;">
+            <input
+              type="text"
+              name="message"
+              id="message"
+              placeholder="Enter message"
+              class="form-control"
+              required
+            />
+          </div>
+            <button type="submit" id="send" class="btn btn-primary">Enviar</button>
+          </div>
+      </form>
+    </fieldset>
+    
 
   </div>
 </div>
+
 <script>
   const socket = io(); 
-  function addproduct() { 
-      const title = document.getElementById('title').value;
-      const price = document.getElementById('price').value; 
-      const thumbnail = document.getElementById('thumbnail').value; 
-      socket.emit('dataFront',{ 
-        title,
-        price,
-        thumbnail 
-      }) 
-    }
+  socket.on('messageBackend',(data)=>{ 
+    let inner=''; 
+    data.map((message)=>{ 
+      inner+=`<p><strong style="color: blue;">${message.email}</strong> [<i style="color: rgb(238, 84, 84)">${message.fecha}</i>] : ${message.message}</p><br>`
+    }) 
+    document.getElementById('messages').innerHTML=inner;
+  }) 
+  //var exist = false; 
+  //var data = [];
+  socket.on('errores', (error)=>{  });
+  //socket.on("dataBackend", (products)=>{ console.log if (products != []) { exist= true; data = products; } }) */ 
+  
+  function addMessage(){ 
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    socket.emit('messageFront',{ email, message });
+  } 
+  function addProduct() { 
+    const title = document.getElementById('title').value; 
+    const price = document.getElementById('price').value; 
+    const thumbnail = document.getElementById('thumbnail').value; 
+    socket.emit('dataFront',{ title, price, thumbnail }) 
+  }
 </script>
