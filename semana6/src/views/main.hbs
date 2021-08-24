@@ -1,125 +1,131 @@
-<fieldset>
-  <form onsubmit="addProduct()" style="width: 20%; margin: 20px;">
-    <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Ingrese
-      el Producto</h4>
-    <div class="form-group">
-      <label for="title" style="font-weight: bold;">Title</label>
-      <input
-        type="text"
-        name="title"
-        id="title"
-        placeholder="Enter Title"
-        class="form-control"
-        required
-      />
-
-    </div>
-    <div class="form-group">
-      <label for="price" style="font-weight: bold;">Price</label>
-      <input
-        type="number"
-        name="price"
-        class="form-control"
-        id="price"
-        required
-      />
-
-    </div>
-    <div class="form-group">
-      <label for="thumbnail" style="font-weight: bold;">Thumbnail Link</label>
-      <input
-        type="text"
-        name="thumbnail"
-        id="thumbnail"
-        placeholder="Enter Thumbnail Link"
-        class="form-control"
-        required
-      />
-
-    </div>
-    <div>
-      <button id="send" type="submit" class="btn btn-success">Guardar</button>
-    </div>
-
-  </form>
-</fieldset>
-<div style="margin: 20px; width: 25%;">
-  {{! <h4 style="color: blue; font-weight: bold;">Vista de Productos</h4> }}
-  {{!-- {{#if exist}} --}}
-    <table class="table table-dark">
-      <thead>
-        <tr>
-          <th style="width: 50%;">Nombre</th>
-          <th style="width: 30%;">Precio</th>
-          <th style="width: 20%;">Foto</th>
-        </tr>
-      </thead>
-      <tbody id="contenido">
-
-      </tbody>
-      {{!-- {{#each data}} --}}
-        {{!-- <tr style="height: 50px;">
-          <td>{{this.title}}</td>
-          <td>${{this.price}}</td>
-          <td><img
-              src={{this.thumbnail}}
-              alt="foto"
-              class="img-fluid img-thumbnail"
-            /></td>
-        </tr> --}}
-      {{!-- {{/each}} --}}
-
-    </table>
-  {{!-- {{else}} --}}
-    {{!-- <div class="alert alert-warning">
-      No hay productos
-    </div>
-  {{/if}} --}}
-</div>
-<div style="width: 40%; margin: 20px; background-color: rgb(207, 207, 207);">
-  <div style="padding: 10px; margin: 20px;">
-    <h4 style="color: #0000ff; font-weight: bold; ">Centro de Mensajes</h4>
+<div style="display: flex; flex-direction: row;">
+  <div style="width: 300px; margin-right: 100px;" >
     <fieldset>
-      <form onsubmit="addMessage()">
+      <form onsubmit="addProduct()" style="margin: 20px;">
+        <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Ingrese
+          el Producto</h4>
         <div class="form-group">
+          <label for="title" style="font-weight: bold;">Title</label>
           <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter email"
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Enter Title"
             class="form-control"
             required
           />
+
         </div>
-        
-        <div style="background-color: beige;" id="messages"></div>
-        
-        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px;">
-          <div style="margin-right: 20px; width: 80%;">
+        <div class="form-group">
+          <label for="price" style="font-weight: bold;">Price</label>
+          <input
+            type="number"
+            name="price"
+            class="form-control"
+            id="price"
+            required
+          />
+
+        </div>
+        <div class="form-group">
+          <label for="thumbnail" style="font-weight: bold;">Thumbnail Link</label>
+          <input
+            type="text"
+            name="thumbnail"
+            id="thumbnail"
+            placeholder="Enter Thumbnail Link"
+            class="form-control"
+            required
+          />
+
+        </div>
+        <div>
+          <button id="send" type="submit" class="btn btn-success">Guardar</button>
+        </div>
+
+      </form>
+    </fieldset>
+    <div style="margin: 20px;">
+      {{! <h4 style="color: blue; font-weight: bold;">Vista de Productos</h4> }}
+      {{!-- {{#if exist}} --}}
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th style="width: 50%;">Nombre</th>
+              <th style="width: 30%;">Precio</th>
+              <th style="width: 20%;">Foto</th>
+            </tr>
+          </thead>
+          <tbody id="contenido">
+
+          </tbody>
+          {{!-- {{#each data}} --}}
+            {{!-- <tr style="height: 50px;">
+              <td>{{this.title}}</td>
+              <td>${{this.price}}</td>
+              <td><img
+                  src={{this.thumbnail}}
+                  alt="foto"
+                  class="img-fluid img-thumbnail"
+                /></td>
+            </tr> --}}
+          {{!-- {{/each}} --}}
+
+        </table>
+      {{!-- {{else}} --}}
+        {{!-- <div class="alert alert-warning">
+          No hay productos
+        </div>
+      {{/if}} --}}
+    </div>
+
+  </div>
+  <div style="width: 500px; margin: 20px; background-color: rgb(207, 207, 207);">
+    <div style="padding: 10px; margin: 20px;">
+      <h4 style="color: #0000ff; font-weight: bold; ">Centro de Mensajes</h4>
+      <fieldset>
+        <form onsubmit="addMessage()">
+          <div class="form-group">
             <input
-              type="text"
-              name="message"
-              id="message"
-              placeholder="Enter message"
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter email"
               class="form-control"
               required
             />
           </div>
-            <button type="submit" id="send" class="btn btn-primary">Enviar</button>
-          </div>
-      </form>
-    </fieldset>
-    
+          
+          <div style="background-color: beige;" id="messages"></div>
+          
+          <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px;">
+            <div style="margin-right: 20px; width: 80%;">
+              <input
+                type="text"
+                name="message"
+                id="message"
+                placeholder="Enter message"
+                class="form-control"
+                required
+              />
+            </div>
+              <button type="submit" id="send" class="btn btn-primary">Enviar</button>
+            </div>
+        </form>
+      </fieldset>
+      
 
+    </div>
   </div>
 </div>
+
 
 <script>
   const socket = io();
   socket.on('messageBackend',(data)=>{ 
     let inner=''; 
     data.map((message)=>{ 
-      inner+=`<p><strong style="color: blue;">${message.email}</strong> [<i style="color: rgb(238, 84, 84)">${message.fecha}</i>] : ${message.message}</p><br>`
+      inner+=`<div><strong style="color: blue;">${message.email}</strong> [<i style="color: rgb(238, 84, 84)">${message.fecha}</i>] : ${message.message}</div>`
     }) 
     document.getElementById('messages').innerHTML=inner;
   }) 
