@@ -10,11 +10,7 @@ const { Contenedor } = require("./contenedor.js");
 
 const app = express();
 const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer, {
-  cors: {
-    origin: "http://localhost:3005",
-  },
-});
+const io = new IOServer(httpServer);
 
 const port = 8082;
 let contenedor = new Contenedor("./src/productos.txt");
@@ -59,23 +55,28 @@ app.engine(
 app.set("views", "./src/views");
 app.set("view engine", "hbs");
 
-// app.get('/', (req, res) => {
-// 	res.render("main");
-// })
-app.get("/", async (req, res) => {
-  try {
-    await contenedor.getAll();
-    const data = contenedor.data;
-    res.render("main", {
-      data,
-      exist: true,
-    });
-  } catch (error) {
-    res.render("main", {
-      exist: false,
-    });
-  }
-});
+app.get('/', (req, res) => {
+	res.render("main");
+})
+
+// app.get("/", async (req, res) => {
+//   try {
+//     await contenedor.getAll();
+//     const data = contenedor.data;
+//     res.render("main", {
+//       data,
+//       exist: true,
+//     });
+//   } catch (error) {
+//     res.render("main", {
+//       exist: false,
+//     });
+//   }
+// });
+app.get("/api/productos", async (req, res)=> {
+  await contenedor.getAll();
+  res.send(contenedor.data);
+})
 // app.post("/", async (req, res) => {
 //   try {
 //     await contenedor.save({

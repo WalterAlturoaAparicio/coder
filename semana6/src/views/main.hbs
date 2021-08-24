@@ -45,7 +45,7 @@
 </fieldset>
 <div style="margin: 20px; width: 25%;">
   {{! <h4 style="color: blue; font-weight: bold;">Vista de Productos</h4> }}
-  {{#if exist}}
+  {{!-- {{#if exist}} --}}
     <table class="table table-dark">
       <thead>
         <tr>
@@ -54,9 +54,11 @@
           <th style="width: 20%;">Foto</th>
         </tr>
       </thead>
+      <tbody id="contenido">
 
-      {{#each data}}
-        <tr style="height: 50px;">
+      </tbody>
+      {{!-- {{#each data}} --}}
+        {{!-- <tr style="height: 50px;">
           <td>{{this.title}}</td>
           <td>${{this.price}}</td>
           <td><img
@@ -64,15 +66,15 @@
               alt="foto"
               class="img-fluid img-thumbnail"
             /></td>
-        </tr>
-      {{/each}}
+        </tr> --}}
+      {{!-- {{/each}} --}}
 
     </table>
-  {{else}}
-    <div class="alert alert-warning">
+  {{!-- {{else}} --}}
+    {{!-- <div class="alert alert-warning">
       No hay productos
     </div>
-  {{/if}}
+  {{/if}} --}}
 </div>
 <div style="width: 40%; margin: 20px; background-color: rgb(207, 207, 207);">
   <div style="padding: 10px; margin: 20px;">
@@ -113,7 +115,7 @@
 </div>
 
 <script>
-  const socket = io(); 
+  const socket = io();
   socket.on('messageBackend',(data)=>{ 
     let inner=''; 
     data.map((message)=>{ 
@@ -123,9 +125,34 @@
   }) 
   //var exist = false; 
   //var data = [];
-  socket.on('errores', (error)=>{  });
+  //socket.on('errores', (error)=>{  });
   //socket.on("dataBackend", (products)=>{ console.log if (products != []) { exist= true; data = products; } }) */ 
-  
+
+  function traer() {
+    fetch('http://localhost:8082/api/productos')
+    .then(res => res.json())
+    .then(datos=> {
+      tabla(datos)
+    })
+  }
+  function tabla(datos) {
+    let inner = '';
+    for (let product of datos) {
+      inner += `
+        <tr style="height: 50px;">
+          <td>${product.title}</td>
+          <td>${product.price}</td>
+          <td><img
+              src=${product.thumbnail}
+              alt="foto"
+              class="img-fluid img-thumbnail"
+          /></td>
+        </tr>
+      `
+    }
+    document.getElementById('contenido').innerHTML=inner;
+  }
+  traer();
   function addMessage(){ 
     const email = document.getElementById('email').value;
     const message = document.getElementById('message').value;
@@ -135,6 +162,7 @@
     const title = document.getElementById('title').value; 
     const price = document.getElementById('price').value; 
     const thumbnail = document.getElementById('thumbnail').value; 
-    socket.emit('dataFront',{ title, price, thumbnail }) 
+    socket.emit('dataFront',{ title, price, thumbnail });
+    traer(); 
   }
 </script>
