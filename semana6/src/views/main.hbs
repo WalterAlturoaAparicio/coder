@@ -1,3 +1,4 @@
+<div id="notificacion"></div>
 <div style="display: flex; flex-direction: row;">
   <div style="width: 300px; margin-right: 100px;" >
     <fieldset>
@@ -59,6 +60,7 @@
           <tbody id="contenido">
 
           </tbody>
+          
           {{!-- {{#each data}} --}}
             {{!-- <tr style="height: 50px;">
               <td>{{this.title}}</td>
@@ -72,6 +74,7 @@
           {{!-- {{/each}} --}}
 
         </table>
+        <div id="error-productos"></div>
       {{!-- {{else}} --}}
         {{!-- <div class="alert alert-warning">
           No hay productos
@@ -127,13 +130,20 @@
     data.map((message)=>{ 
       inner+=`<div><strong style="color: blue;">${message.email}</strong> [<i style="color: rgb(238, 84, 84)">${message.fecha}</i>] : ${message.message}</div>`
     }) 
+      
     document.getElementById('messages').innerHTML=inner;
   }) 
-  //var exist = false; 
-  //var data = [];
-  //socket.on('errores', (error)=>{  });
-  //socket.on("dataBackend", (products)=>{ console.log if (products != []) { exist= true; data = products; } }) */ 
 
+  socket.on("my-error", (data)=>{ 
+    console.log(data);
+    let inner=''; 
+    inner += `<div class="alert alert-danger">${data}</div>`
+    document.getElementById('notificacion').innerHTML=inner;
+  });
+  
+  socket.on("dataBackend", ()=> {
+    traer();
+  })
   function traer() {
     fetch('http://localhost:8082/api/productos')
     .then(res => res.json())
@@ -143,7 +153,8 @@
   }
   function tabla(datos) {
     let inner = '';
-    for (let product of datos) {
+    if (!datos.error) {
+      for (let product of datos) {
       inner += `
         <tr style="height: 50px;">
           <td>${product.title}</td>
@@ -154,11 +165,16 @@
               class="img-fluid img-thumbnail"
           /></td>
         </tr>
-      `
+        `
+      }
+      document.getElementById('contenido').innerHTML=inner;
+    } else {
+      inner += `<div class="alert alert-warning">No hay productos</div>`
+      document.getElementById('error-productos').innerHTML=inner;
     }
-    document.getElementById('contenido').innerHTML=inner;
+    
   }
-  traer();
+  traer()
   function addMessage(){ 
     const email = document.getElementById('email').value;
     const message = document.getElementById('message').value;

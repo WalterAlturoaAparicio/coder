@@ -15,29 +15,43 @@ const io = new IOServer(httpServer);
 const port = 8082;
 let contenedor = new Contenedor("./src/productos.txt");
 
-const messages = [
-]
+const messages = [];
 io.on("connection", (socket) => {
-  socket.on("dataFront", async (data) => {
-    try {
-      await contenedor.save({
+  socket.on("dataFront", (data) => {
+    contenedor
+      .save({
         title: data.title,
         price: data.price,
         thumbnail: data.thumbnail,
+      })
+      .then(() => {
+        io.sockets.emit("dataBackend");
+      })
+      .catch((err) => {
+        const error = err
+        socket.emit("my-error", error);
       });
-    } catch (error) {
-      socket.emit('errores', {error});
-    }
+    // try {
+    //   await contenedor.save({
+    //     title: data.title,
+    //     price: data.price,
+    //     thumbnail: data.thumbnail,
+    //   });
+    //   io.sockets.emit("dataBackend");
+    // } catch (error) {
+    //   socket.emit("errores", error);
+    //   return;
+    // }
   });
   const fecha = moment().format();
 
-  socket.emit('messageBackend', messages);
+  socket.emit("messageBackend", messages);
   socket.on("messageFront", (data) => {
     messages.push({
-			email: data.email,
-			message: data.message,
+      email: data.email,
+      message: data.message,
       fecha,
-		});
+    });
     io.sockets.emit("messageBackend", messages);
   });
 });
@@ -55,9 +69,9 @@ app.engine(
 app.set("views", "./src/views");
 app.set("view engine", "hbs");
 
-app.get('/', (req, res) => {
-	res.render("main");
-})
+app.get("/", (req, res) => {
+  res.render("main");
+});
 
 // app.get("/", async (req, res) => {
 //   try {
@@ -73,10 +87,16 @@ app.get('/', (req, res) => {
 //     });
 //   }
 // });
-app.get("/api/productos", async (req, res)=> {
-  await contenedor.getAll();
-  res.send(contenedor.data);
-})
+app.get("/api/productos", async (req, res) => {
+  try {
+    await contenedor.getAll();
+    res.send(contenedor.data);
+  } catch (error) {
+    res.json({
+      error: error.message,
+    });
+  }
+});
 // app.post("/", async (req, res) => {
 //   try {
 //     await contenedor.save({

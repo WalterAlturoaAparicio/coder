@@ -18,9 +18,9 @@
     "id": 3
   },
   {
-    "title": "test",
-    "price": "123",
-    "thumbnail": "https://cdn4.iconfinder.com/data/icons/picons-social/57/38-instagram-3-128.png",
+    "title": "Proyecto Fruithz",
+    "price": "546",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook2_colored_svg-256.png",
     "id": 4
   }
 ]
