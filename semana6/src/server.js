@@ -6,14 +6,17 @@ const moment = require("moment");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 
+const favicon = require('serve-favicon');
+
 const { Contenedor } = require("./contenedor.js");
 
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-const port = 8082;
+const port = 8080;
 let contenedor = new Contenedor("./src/productos.txt");
+app.use(favicon(__dirname + '/favicon.ico'));
 
 const messages = [];
 io.on("connection", (socket) => {
@@ -24,24 +27,11 @@ io.on("connection", (socket) => {
         price: data.price,
         thumbnail: data.thumbnail,
       })
-      .then(() => {
-        io.sockets.emit("dataBackend");
-      })
-      .catch((err) => {
-        const error = err
-        socket.emit("my-error", error);
+      .then((data) => {
+        io.sockets.emit("dataBackend", data);
+      }).catch((error)=> {
+        socket.emit("errores", {error: error.message});     
       });
-    // try {
-    //   await contenedor.save({
-    //     title: data.title,
-    //     price: data.price,
-    //     thumbnail: data.thumbnail,
-    //   });
-    //   io.sockets.emit("dataBackend");
-    // } catch (error) {
-    //   socket.emit("errores", error);
-    //   return;
-    // }
   });
   const fecha = moment().format();
 
@@ -72,22 +62,21 @@ app.set("view engine", "hbs");
 app.get("/", (req, res) => {
   res.render("main");
 });
-
-// app.get("/", async (req, res) => {
+// app.get("/valid/:title/:price/:thumbnail", async (req, res)=> {
 //   try {
-//     await contenedor.getAll();
-//     const data = contenedor.data;
-//     res.render("main", {
-//       data,
-//       exist: true,
+//     await contenedor.valid({
+//       title: req.params.title,
+//       price: req.params.price,
+//       thumbnail: req.params.thumbnail,
 //     });
+//     res.status(200).json({notification: "insercion Correcta"});
 //   } catch (error) {
-//     res.render("main", {
-//       exist: false,
+//     res.json({
+//       error: error.message,
 //     });
 //   }
-// });
-app.get("/api/productos", async (req, res) => {
+// })
+app.get("/productos", async (req, res) => {
   try {
     await contenedor.getAll();
     res.send(contenedor.data);
@@ -97,20 +86,6 @@ app.get("/api/productos", async (req, res) => {
     });
   }
 });
-// app.post("/", async (req, res) => {
-//   try {
-//     await contenedor.save({
-//       title: req.body.title,
-//       price: req.body.price,
-//       thumbnail: req.body.thumbnail,
-//     });
-//     res.status(200);
-//   } catch (error) {
-//     res.status(400).json({
-//       error: error.message,
-//     });
-//   }
-// });
 
 httpServer.listen(port, () => {
   console.log(emoji.get("computer"), "Servidor Puerto: " + port);

@@ -7,7 +7,17 @@ class Contenedor {
     this.id = 1;
     this.data = [];
   }
-
+  async valid(obj) {
+    try {
+      await this.getAll();
+      this.data.map((product) => {
+        if (product.title === obj.title)
+          throw new Error(`El producto ${obj.title} ya esta en la lista `);
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
   async save(obj) {
     await this.getAll();
     this.data.map((product) => {

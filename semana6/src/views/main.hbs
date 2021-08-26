@@ -2,7 +2,7 @@
 <div style="display: flex; flex-direction: row;">
   <div style="width: 300px; margin-right: 100px;" >
     <fieldset>
-      <form onsubmit="addProduct()" style="margin: 20px;">
+      <form onsubmit="addProduct(); return false" style="margin: 20px;" >
         <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Ingrese
           el Producto</h4>
         <div class="form-group">
@@ -87,7 +87,7 @@
     <div style="padding: 10px; margin: 20px;">
       <h4 style="color: #0000ff; font-weight: bold; ">Centro de Mensajes</h4>
       <fieldset>
-        <form onsubmit="addMessage()">
+        <form onsubmit="addMessage(); return false">
           <div class="form-group">
             <input
               type="email"
@@ -125,30 +125,30 @@
 
 <script>
   const socket = io();
+  socket.on("errores", (error)=> {
+    console.log(error);
+    const inner = `<div class="alert alert-danger style="width: 100px">${error.error}</div>`;
+    document.getElementById('notificacion').innerHTML=inner;
+  })
+  
   socket.on('messageBackend',(data)=>{ 
     let inner=''; 
     data.map((message)=>{ 
       inner+=`<div><strong style="color: blue;">${message.email}</strong> [<i style="color: rgb(238, 84, 84)">${message.fecha}</i>] : ${message.message}</div>`
-    }) 
-      
+    })
     document.getElementById('messages').innerHTML=inner;
   }) 
-
-  socket.on("my-error", (data)=>{ 
-    console.log(data);
-    let inner=''; 
-    inner += `<div class="alert alert-danger">${data}</div>`
-    document.getElementById('notificacion').innerHTML=inner;
-  });
   
   socket.on("dataBackend", ()=> {
     traer();
+    const inner = `<div class="alert alert-success style="width: 100px">Producto Ingresado correctamente</div>`;
+    document.getElementById('notificacion').innerHTML=inner;
   })
   function traer() {
-    fetch('http://localhost:8082/api/productos')
+    fetch('http://localhost:8080/productos')
     .then(res => res.json())
-    .then(datos=> {
-      tabla(datos)
+    .then(datos => {
+      tabla(datos);
     })
   }
   function tabla(datos) {
@@ -176,14 +176,20 @@
   }
   traer()
   function addMessage(){ 
+    document.getElementById('notificacion').innerHTML='';
     const email = document.getElementById('email').value;
+    document.getElementById('email').value='';
     const message = document.getElementById('message').value;
+    document.getElementById('message').value='';
     socket.emit('messageFront',{ email, message });
   } 
   function addProduct() { 
     const title = document.getElementById('title').value; 
+    document.getElementById('title').value=''; 
     const price = document.getElementById('price').value; 
+    document.getElementById('price').value='';
     const thumbnail = document.getElementById('thumbnail').value; 
+    document.getElementById('thumbnail').value='';  
     socket.emit('dataFront',{ title, price, thumbnail });
     traer(); 
   }
