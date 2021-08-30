@@ -28,6 +28,7 @@ io.on("connection", (socket) => {
         thumbnail: data.thumbnail,
       })
       .then((data) => {
+        socket.emit("notificacionBack");
         io.sockets.emit("dataBackend", data);
       }).catch((error)=> {
         socket.emit("errores", {error: error.message});     

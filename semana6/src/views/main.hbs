@@ -138,11 +138,13 @@
     })
     document.getElementById('messages').innerHTML=inner;
   }) 
-  
-  socket.on("dataBackend", ()=> {
+  socket.on("notificacionBack", ()=> {
     traer();
     const inner = `<div class="alert alert-success style="width: 100px">Producto Ingresado correctamente</div>`;
     document.getElementById('notificacion').innerHTML=inner;
+  })
+  socket.on("dataBackend", ()=> {
+    traer();
   })
   function traer() {
     fetch('http://localhost:8080/productos')
