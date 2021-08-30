@@ -16,7 +16,7 @@ const io = new IOServer(httpServer);
 
 const port = 8080;
 let contenedor = new Contenedor("./src/productos.txt");
-app.use(favicon(__dirname + '/favicon.ico'));
+app.use(favicon(__dirname + '/favicon.jpg'));
 
 const messages = [];
 io.on("connection", (socket) => {
