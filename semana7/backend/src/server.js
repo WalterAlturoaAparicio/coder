@@ -8,13 +8,16 @@ const { Router } = express;
 const favicon = require("serve-favicon");
 
 const { Contenedor } = require("./contenedor.js");
+const { Carrito } = require("./carrito.js");
 
 const app = express();
 
 const routerProductos = new Router();
+const routerCarrito = new Router();
 const port = 8082;
 
 let contenedor = new Contenedor("./src/productos.txt");
+let carrito = new Carrito("./src/carritos.txt");
 
 app.use(favicon(__dirname + "/favicon.jpg"));
 
@@ -28,19 +31,94 @@ app.use(
 );
 
 app.use("/api/productos", routerProductos);
+app.use("/api/carrito", routerCarrito);
 
+/* -------------------------------------------------------------------------- */
+/*                                 API CARRITO                                */
+/* -------------------------------------------------------------------------- */
+routerCarrito.post("/", async (req, res) => {
+  try {
+    await carrito.getAll();
+    res.status(200).json({
+      result: "ok",
+      id: await carrito.save(),
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+});
+routerCarrito.post("/:id/productos", async (req, res) => {
+  try {
+    //await carrito.getAll();
+    await carrito.saveProduct(Number(req.params.id), req.body.product);
+    res.status(200).json({
+      result: "ok",
+      id: req.params.id,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+});
+routerCarrito.delete("/:id", async (req, res) => {
+  try {
+    await carrito.deleteById(Number(req.params.id));
+    res.status(200).json({
+      result: "ok",
+      id: req.params.id,
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: "carrito no encontrado",
+    });
+  }
+});
+routerCarrito.delete("/:id/productos/:id_prod", async (req, res) => {
+  try {
+    await carrito.deleteProducts(Number(req.params.id), Number(req.params.id_prod));
+    res.status(200).json({
+      result: "ok",
+      id: req.params.id,
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: error.message,
+    });
+  }
+});
+routerCarrito.get("/:id/productos", async (req, res) => {
+  try {
+    await carrito.getById(Number(req.params.id));
+    res.status(200).json({
+      result: "ok",
+      products: await carrito.getProducts(Number(req.params.id)),
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: "carrito no encontrado",
+    });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/*                                API PRODUCTOS                               */
+/* -------------------------------------------------------------------------- */
 routerProductos.post("/", async (req, res) => {
   try {
     await contenedor.getAll();
     res.status(200).json({
-      ok: await contenedor.save({
+      result: "ok",
+      id: await contenedor.save({
         title: req.body.title,
         price: req.body.price,
         stock: Number(req.body.stock),
         description: req.body.description,
         code: req.body.code,
         thumbnail: req.body.thumbnail,
-      })
+      }),
     });
   } catch (error) {
     res.status(400).json({
@@ -92,7 +170,7 @@ routerProductos.get("/:id?", async (req, res) => {
     if (req.params.id) {
       res.status(200).send(await contenedor.getById(Number(req.params.id)));
     } else {
-      await contenedor.getAll(isServer=true);
+      await contenedor.getAll((isServer = true));
       res.status(200).send(contenedor.data);
     }
   } catch (error) {

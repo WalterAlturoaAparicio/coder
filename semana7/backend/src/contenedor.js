@@ -66,17 +66,12 @@ class Contenedor {
       await this.getAll();
       let producto = await this.getById(obj.id);
       if (producto.error) throw new Error(producto.error);
-
-      this.data.map((product) => {
-        if (producto.id === product.id) {
-          product.title = obj.title;
-          product.description = obj.description;
-          product.code = obj.code;
-          product.stock = obj.stock;
-          product.price = obj.price;
-          product.thumbnail = obj.thumbnail;
-        }
-      });
+      producto.title = obj.title;
+      producto.description = obj.description;
+      producto.code = obj.code;
+      producto.stock = obj.stock;
+      producto.price = obj.price;
+      producto.thumbnail = obj.thumbnail;
       await fs.promises.writeFile(
         this.archivo,
         JSON.stringify(this.data, null, 2)
@@ -94,8 +89,8 @@ class Contenedor {
       if (data) {
         this.data = JSON.parse(data);
         this.data.map((product) => {
-          if (this.id < product.id) {
-            this.id = product.id;
+          if (this.id <= product.id) {
+            this.id = product.id+1;
           }
         });
       }
@@ -156,16 +151,18 @@ exports.Contenedor = Contenedor;
 //   thumbnail:
 //     "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
 // };
-
-let contenedor = new Contenedor("productos.txt");
+// let contenedor = new Contenedor("productos.txt");
 
 // async function func() {
 //   contenedor.modifyProduct({
-//     id: 2,
-//     title: "Reloj",
-//     price: 250.0,
-//     thumbnail:
-//       "https://cdn3.iconfinder.com/data/icons/education-209/64/rolex-math-tool-school-256.png",
+//     title: "Sissasashfhsakd",
+//     date: "2021-08-31T15:23:36-05:00",
+//     description: "Esfera fdafs cuya superficie se representa la disposición respectiva que tienen las tierras y mares en nuestro planeta.",
+//     code: "4546DASD4165DA",
+//     price: 13.67,
+//     thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
+//     stock: 10,
+//     id: 3
 //   });
 // }
 // func();
