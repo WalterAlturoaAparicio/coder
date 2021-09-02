@@ -3,14 +3,15 @@ import Gradients from "../components/Gradients";
 import ProductImages from "../components/ProductImages";
 import Info from "../components/Info/Info";
 
-const Home = () => {
-  const [admin, setAdmin] = React.useState(true);
+const Home = (props) => {
+  const [admin, setAdmin] = React.useState(false);
   const [data, setData] = React.useState([]);
+  
   var sizes, colors, gradients;
   var shoes, shoeBackground, shoeHeight;
   var prevColor = "blue";
   var animateOrNot = true;
-
+  
   async function getAdmin() {
     let res = await fetch("http://localhost:8082/isAdmin", {
       method: "POST",
@@ -32,7 +33,6 @@ const Home = () => {
   async function loadData() {
     const dataServer = await getData();
     setData(dataServer);
-    console.log(data);
   }
   function changeColor() {
     if (!animateOrNot) {
@@ -110,58 +110,15 @@ const Home = () => {
     sizes.forEach((size) => size.addEventListener("click", changeSize));
     //changeHeight();
     loadData();
-    console.log(data);
   }, []);
   //window.addEventListener("resize", changeHeight);
 
   return (
     <div className="Home">
-      <nav className="navbar">
-        <button onClick={changeAdmin} className="buy">
-          Set Admin
-        </button>
-        <div className="max-width">
-          {admin ? (
-            <ul className="menu">
-              <li>
-                <a href="#" className="menu-btn">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#card" className="menu-btn">
-                  Products
-                </a>
-              </li>
-              <li>
-                <a href="#carrito" className="menu-btn">
-                  <i className="fas fa-shopping-cart"></i>
-                </a>
-              </li>
-            </ul>
-          ) : (
-            <ul className="menu">
-              <li>
-                <a href="#" className="menu-btn">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#"></a>
-              </li>
-              <li>
-                <a href="#carrito" className="menu-btn">
-                  <i className="fas fa-shopping-cart"></i>
-                </a>
-              </li>
-            </ul>
-          )}
-        </div>
-      </nav>
       <div className="container">
         {data.map((product) => {
           return (
-            <div className="card">
+            <div className="card" key={product.id}>
               <div className="shoeBackground">
                 <Gradients />
 

@@ -4,25 +4,25 @@
     "date": "2021-09-01T09:17:57-05:00",
     "productos": [
       {
-        "title": "fasdfsa",
-        "date": "2021-08-31T15:23:28-05:00",
-        "description": "Esfera en cuya superficie se representa la disposición respectiva que tienen las tierras y mares en nuestro planeta.",
+        "title": "Escuadra",
+        "date": "2021-08-31T15:23:22-05:00",
+        "description": "Instrumento de dibujo lineal hecho de madera, metal o plástico, que tiene forma de triángulo rectángulo isósceles o está constituido por dos reglas perpendiculares.",
         "code": "4546DASD4165DA",
-        "price": 345.67,
-        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
+        "price": 123.45,
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "stock": 10,
+        "id": 1
+      },
+      {
+        "title": "Calculadora",
+        "date": "2021-08-31T15:23:28-05:00",
+        "description": "Máquina electrónica capaz de efectuar cálculos aritméticos.",
+        "code": "45462SD4165DA",
+        "price": 234.56,
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
         "stock": 10,
         "id": 2
       }
     ]
-  },
-  {
-    "id": 3,
-    "date": "2021-09-01T09:25:18-05:00",
-    "productos": []
-  },
-  {
-    "id": 4,
-    "date": "2021-09-01T09:46:30-05:00",
-    "productos": []
   }
 ]

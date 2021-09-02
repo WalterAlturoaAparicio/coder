@@ -5,6 +5,22 @@
   min-height: 100vh;
   overflow: hidden;
   padding: 40px;
+  .lista {
+    margin: 50px;
+    .cardBox{
+      display: flex;
+      margin: 40px;
+      align-items: center;
+      .info {
+        padding: 5px;
+        margin: 10px;
+        width: 150px;
+      }
+    }
+    .icon {
+      width: 50px;
+    }
+  }
 }
 
 .card {
