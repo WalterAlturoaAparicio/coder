@@ -102,31 +102,52 @@
   position: absolute;
   right: 0;
   // transform: rotate(-20deg);
-  width: 100%;
+  width: 70%;
+  margin: 10%;
   padding-bottom: 20%;
   &.show {
     opacity: 1;
   }
 }
-.navbar{
+.navbar {
   position: fixed;
   width: 100%;
   z-index: 999;
   padding: 30px 0;
   background: rgb(255, 255, 255);
   transition: all 0.3s ease;
+  .buy {
+    background: var(--primary);
+    position: absolute;
+
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 100;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.5s;
+    margin-left: 20px;
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    svg {
+      margin-right: 5px;
+    }
+  }
 }
-.navbar .menu li{
+.navbar .menu li {
   list-style: none;
   display: inline-block;
 }
-.navbar .max-width{
+.navbar .max-width {
   display: flex;
   align-items: flex-end;
-  
+
   justify-content: space-around;
 }
-.navbar .menu li a{
+.navbar .menu li a {
   display: block;
   color: #000;
   font-size: 18px;
@@ -134,22 +155,22 @@
   margin-left: 25px;
   transition: color 0.3s ease;
 }
-.navbar .menu li a:hover{
+.navbar .menu li a:hover {
   color: rgb(38, 202, 243);
 }
-.navbar .sticky .menu li a:hover{
+.navbar .sticky .menu li a:hover {
   color: #fff;
 }
-.navbar .sticky{
+.navbar .sticky {
   padding: 15px 0;
   background: #fff;
 }
-.max-width{
+.max-width {
   max-width: 1300px;
   padding: 0 80px;
   margin: auto;
 }
-.menu-btn{
+.menu-btn {
   color: #000;
   font-size: 23px;
   cursor: pointer;

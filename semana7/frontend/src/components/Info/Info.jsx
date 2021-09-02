@@ -1,23 +1,20 @@
 import React from "react";
 
-const Info = () => {
+const Info = (props) => {
   const shoeName = (
     <div className="shoeName">
       <div>
-        <h1 className="big">Nike Zoom KD 12</h1>
-        <span className="new">new</span>
+        <h1 className="big">{props.title}</h1>
+        {/* <span className="new">new</span> */}
       </div>
-      <h3 className="small">Men's running shoes</h3>
+      <h3 className="small">Code {props.code}</h3>
     </div>
   );
 
   const description = (
     <div className="description">
       <h3 className="title">Product Info</h3>
-      <p className="text">
-        Ensure a comfortable running session by wearing this pair of cool
-        running shoes from Nike.
-      </p>
+      <p className="text">{props.description}</p>
     </div>
   );
 
@@ -55,7 +52,7 @@ const Info = () => {
       </a>
       <div className="price">
         <i className="fas fa-dollar-sign"></i>
-        <h1>149.99</h1>
+        <h1>{props.price}</h1>
       </div>
     </div>
   );

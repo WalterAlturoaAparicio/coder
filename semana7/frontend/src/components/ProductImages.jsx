@@ -1,9 +1,7 @@
 
-import blue from "../assets/img/blue.png";
-
-const ProductImages = () => {
+const ProductImages = (props) => {
   return (
-    <img src={blue} alt="blue shoe" className="shoe show" color="blue" />
+    <img src={props.urlImage} alt="blue shoe" className="shoe show" color="blue" />
   );
 };
 
