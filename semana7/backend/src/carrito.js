@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 const fs = require("fs");
 const moment = require("moment");
 
@@ -43,9 +44,9 @@ class Carrito {
     try {
       await this.getAll();
       let retornar = null;
-      this.data.map((product) => {
-        if (product.id === id) {
-          retornar = product;
+      this.data.map((carrito) => {
+        if (carrito.id === id) {
+          retornar = carrito;
         }
       });
       if (retornar === null) {

@@ -20,6 +20,21 @@
     .icon {
       width: 50px;
     }
+    .cardBox2{
+      display: flex;
+      margin: 40px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      .info, .code, .price, .description, .stock, .title, .fecha {
+        padding: 5px;
+        margin: 10px;
+        width: 250px;
+      }
+    }
+    .icon {
+      width: 50px;
+    }
   }
 }
 

@@ -14,14 +14,14 @@
         "id": 1
       },
       {
-        "title": "Calculadora",
-        "date": "2021-08-31T15:23:28-05:00",
-        "description": "Máquina electrónica capaz de efectuar cálculos aritméticos.",
-        "code": "45462SD4165DA",
-        "price": 234.56,
-        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
+        "title": "Globo Terráqueo",
+        "date": "2021-08-31T15:23:36-05:00",
+        "description": "Esfera en cuya superficie se representa la disposición respectiva que tienen las tierras y mares en nuestro planeta.",
+        "code": "4542ASD4165DA",
+        "price": 345.67,
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
         "stock": 10,
-        "id": 2
+        "id": 3
       }
     ]
   }

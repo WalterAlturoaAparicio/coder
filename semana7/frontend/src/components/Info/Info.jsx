@@ -1,20 +1,31 @@
 import React from "react";
 
 const Info = (props) => {
+  async function agregarAlCarrito(product) {
+    console.log(JSON.stringify({product}));
+    let res = await fetch("http://localhost:8080/api/carrito/1/productos", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors',
+      body: JSON.stringify({product})
+    });
+    res = res.json();
+    return res;
+  }
   const shoeName = (
     <div className="shoeName">
       <div>
-        <h1 className="big">{props.title}</h1>
+        <h1 className="big">{props.product.title}</h1>
         {/* <span className="new">new</span> */}
       </div>
-      <h3 className="small">Code {props.code}</h3>
+      <h3 className="small">Code {props.product.code}</h3>
     </div>
   );
 
   const description = (
     <div className="description">
       <h3 className="title">Product Info</h3>
-      <p className="text">{props.description}</p>
+      <p className="text">{props.product.description}</p>
     </div>
   );
 
@@ -47,12 +58,12 @@ const Info = (props) => {
 
   const BuySection = (
     <div className="buy-price">
-      <a href="/#" className="buy">
+      <button onClick={()=>agregarAlCarrito(props.product)} className="buy">
         <i className="fas fa-shopping-cart"></i>Add to card
-      </a>
+      </button>
       <div className="price">
         <i className="fas fa-dollar-sign"></i>
-        <h1>{props.price}</h1>
+        <h1>{props.product.price}</h1>
       </div>
     </div>
   );

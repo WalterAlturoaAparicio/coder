@@ -1,30 +1,20 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import Gradients from "../components/Gradients";
 import ProductImages from "../components/ProductImages";
 import Info from "../components/Info/Info";
 
 const Home = (props) => {
-  const [admin, setAdmin] = React.useState(false);
   const [data, setData] = React.useState([]);
   
   var sizes, colors, gradients;
   var shoes, shoeBackground, shoeHeight;
   var prevColor = "blue";
-  var animateOrNot = true;
+  var animateOrNot = true;  
   
-  async function getAdmin() {
-    let res = await fetch("http://localhost:8082/isAdmin", {
-      method: "POST",
-    });
-    res = res.json();
-    return res;
-  }
-  async function changeAdmin() {
-    const adminState = await getAdmin();
-    setAdmin(adminState.isAdmin);
-  }
   async function getData() {
-    let res = await fetch("http://localhost:8082/api/productos", {
+    let res = await fetch("http://localhost:8080/api/productos", {
       method: "GET",
     });
     res = res.json();
@@ -128,7 +118,7 @@ const Home = (props) => {
 
                 <ProductImages urlImage={product.thumbnail}/>
               </div>
-              <Info title={product.title} code= {product.code} description={product.description} price={product.price}/>
+              <Info product={product}/>
             </div>
           );
         })}

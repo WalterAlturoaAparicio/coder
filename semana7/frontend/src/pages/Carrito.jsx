@@ -1,10 +1,13 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 
 const Carrito = (props) => {
   const [products, setProducts] = React.useState([]);
-  let total = 0;
+  const [total, setTotal] = React.useState(0);
+  let subTotal = 0;
   async function getProducts() {
-    let res = await fetch("http://localhost:8082/api/carrito/1/productos", {
+    let res = await fetch("http://localhost:8080/api/carrito/1/productos", {
       method: "GET",
     });
     res = res.json();
@@ -14,25 +17,37 @@ const Carrito = (props) => {
     const productos = await getProducts();
     setProducts(productos.products);
   }
+  function sumaTotal() {
+    products.map((producto) => {
+      subTotal += Number(producto.price);
+    });
+    setTotal(Math.round(subTotal*100)/100);
+  }
+  async function eliminarProducto(id) {
+    let res = await fetch(`http://localhost:8080/api/carrito/1/productos/${id}`, {
+      method: "DELETE"
+    });
+    res = res.json();
+    return res;
+  }
   useEffect(() => {
     loadProducts();
-    products.map((producto) => {
-      total += producto.price;
-    });
+    sumaTotal();
   });
 
   return (
     <div className="container">
       <div className="lista">
+
         {products.map((producto) => {
           return (
-            <div className="cardBox">
+            <div className="cardBox" key={producto.id}>
               <img src={producto.thumbnail} alt="thumbnail" className="icon" />
               <div className="info">{producto.title}</div>
               <div className="info">{producto.code}</div>
               <div className="info">{producto.price}</div>
               <div>
-                <button>
+                <button onClick = {()=>eliminarProducto(producto.id)}>
                   <i className="fas fa-times"></i>
                 </button>
               </div>

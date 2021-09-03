@@ -14,7 +14,7 @@ const app = express();
 
 const routerProductos = new Router();
 const routerCarrito = new Router();
-const port = 8082;
+const port = 8080;
 
 let contenedor = new Contenedor("./src/productos.txt");
 let carrito = new Carrito("./src/carritos.txt");
@@ -53,6 +53,11 @@ routerCarrito.post("/", async (req, res) => {
 routerCarrito.post("/:id/productos", async (req, res) => {
   try {
     //await carrito.getAll();
+    let carro = await carrito.getById(Number(req.params.id));
+    carro.productos.map((producto)=>{
+      if (producto.id === Number(req.body.product.id)) 
+        throw new Error("Producto ya esta en el carrito")
+    })
     await carrito.saveProduct(Number(req.params.id), req.body.product);
     res.status(200).json({
       result: "ok",

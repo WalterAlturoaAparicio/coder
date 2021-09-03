@@ -3,20 +3,45 @@ import Home from "./pages/Home";
 import Carrito from "./pages/Carrito";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.scss";
+import Productos from "./pages/Productos";
 
 const App = () => {
+  const [admin, setAdmin] = React.useState(false);
+
+  async function changeAdmin() {
+    const adminState = await setStateAdmin();
+    setAdmin(adminState.isAdmin);
+  }
+  async function setStateAdmin() {
+    let res = await fetch("http://localhost:8080/isAdmin", {
+      method: "POST",
+    });
+    res = res.json();
+    return res;
+  }
+  async function getStateAdmin() {
+    let res = await fetch("http://localhost:8080/isAdmin", {
+      method: "GET",
+    });
+    res = res.json();
+    return res;
+  }
+  async function getAdmin() {
+    const adminState = await getStateAdmin();
+    setAdmin(adminState.isAdmin);
+  }
   React.useEffect(() => {
-    
+    getAdmin();
   }, []);
   return (
     <Router>
       <div>
         <nav className="navbar">
-          <button onClick={Home.changeAdmin} className="buy">
+          <button onClick={() => changeAdmin()} className="buy">
             Set Admin
           </button>
           <div className="max-width">
-            {Home.admin ? (
+            {admin ? (
               <ul className="menu">
                 <li>
                   <a href="/" className="menu-btn">
@@ -54,9 +79,9 @@ const App = () => {
           </div>
         </nav>
         <Switch>
-          {/* <Route path="/about">
-            <About />
-          </Route> */}
+          <Route path="/productos">
+            <Productos />
+          </Route>
           <Route path="/carrito">
             <Carrito />
           </Route>
