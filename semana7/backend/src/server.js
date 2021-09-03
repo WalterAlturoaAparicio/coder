@@ -208,7 +208,7 @@ routerProductos.get("/:id?", async (req, res) => {
     if (req.params.id) {
       res.status(200).send(await contenedor.getById(Number(req.params.id)));
     } else {
-      await contenedor.getAll((isServer = true));
+      await contenedor.getAll((true));
       res.status(200).send(contenedor.data);
     }
   } catch (error) {
