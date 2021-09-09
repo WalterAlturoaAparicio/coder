@@ -1,0 +1,30 @@
+{
+  "name": "semana8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon --inspect ./src/server.js",
+    "db": "nodemon --inspect ./src/DB/dbMessages.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "knex": "^0.95.11",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "node-emoji": "^1.11.0",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^4.1.3",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "nodemon": "^2.0.12"
+  }
+}
