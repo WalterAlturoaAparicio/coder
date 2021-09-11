@@ -3,4 +3,4 @@ const config = {
 	connection: { filename: './src/DB/ecommerce.sqlite' },
 	useNullAsDefault: true,
 }
-module.exports = { config }
+module.exports = config
