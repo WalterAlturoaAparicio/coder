@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 const dotenv = require('dotenv')
 dotenv.config()
 
 const config = {
-	client: 'mysql2',
+	client: 'mysql',
 	connection: {
 		host: process.env.HOST,
 		user: process.env.USERDB,
@@ -11,4 +12,4 @@ const config = {
 	},
 }
 
-module.exports = { config }
+module.exports = config

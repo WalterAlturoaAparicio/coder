@@ -1,4 +1,4 @@
-const config =  require('./configsqlite.js')
+const config =  require('./configMysql.js')
 const knex = require('knex')(config)
 
 module.exports = knex;
