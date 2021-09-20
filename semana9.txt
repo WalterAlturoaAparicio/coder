@@ -1,0 +1,124 @@
+> db
+ecommerce
+> show collections
+mensajes
+productos
+> db.mensajes.find({})
+{ "_id" : ObjectId("6143326c351d34e912e085fd"), "email" : "saraayala@gmail.com", "mensaje" : "Holaaa" }
+{ "_id" : ObjectId("6143326c351d34e912e085fe"), "email" : "mateogaleano@gmail.com", "mensaje" : "Hola, como vas?" }
+{ "_id" : ObjectId("6143326c351d34e912e085ff"), "email" : "carlosandres@gmail.com", "mensaje" : "Super estoy manejando mongo" }
+{ "_id" : ObjectId("6143326c351d34e912e08600"), "email" : "mariabarrios@gmail.com", "mensaje" : "Que se dice" }
+{ "_id" : ObjectId("6143326c351d34e912e08601"), "email" : "ganzola123@gmail.com", "mensaje" : "Siuuuuu" }
+{ "_id" : ObjectId("6143326c351d34e912e08602"), "email" : "martina@hotmail.com", "mensaje" : "soy un mensaje wiii" }
+{ "_id" : ObjectId("6143326c351d34e912e08603"), "email" : "correofalso321@gmail.com", "mensaje" : "Porque?" }
+{ "_id" : ObjectId("6143326c351d34e912e08604"), "email" : "sololaura@hotmail.com", "mensaje" : "Me gusta" }
+{ "_id" : ObjectId("6143326c351d34e912e08605"), "email" : "americaeslaluz@gmail.com", "mensaje" : "I dont know" }
+{ "_id" : ObjectId("6143326c351d34e912e08606"), "email" : "alberto@gmail.com", "mensaje" : "nose" }
+> db.productos.find({})
+{ "_id" : ObjectId("6143392d9adb38f03c33eb60"), "title" : "Escuadra", "date" : "2021-08-31T15:23:22-05:00", "description" : "Instrumento de dibujo lineal hecho de madera, metal o plástico, que tiene forma de triángulo rectángulo isósceles o está constituido por dos reglas perpendiculares.", "code" : "DSALKDA21", "price" : 123.45, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png", "stock" : 10 }
+{ "_id" : ObjectId("614339529adb38f03c33eb70"), "title" : "Calculadora", "date" : "2021-08-31T15:23:28-05:01", "description" : "Máquina electrónica capaz de efectuar cálculos aritméticos.", "code" : "45462SD4165DA", "price" : 234.56, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png", "stock" : 8 }
+{ "_id" : ObjectId("6143395d9adb38f03c33eb75"), "title" : "Globo Terráqueo", "date" : "2021-08-31T15:23:36-05:02", "description" : "Esfera en cuya superficie se representa la disposición respectiva que tienen las tierras y mares en nuestro planeta.", "code" : "4542ASD4165DA", "price" : 345.67, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png", "stock" : 2 }
+{ "_id" : ObjectId("614339679adb38f03c33eb78"), "title" : "Circulo", "date" : "2021-08-31T15:23:36-05:03", "description" : "Esfera negra con fondo blanco.", "code" : "454PPWQS165DA", "price" : 4000, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/design-set2/32/des32px094-256.png", "stock" : 20 }
+{ "_id" : ObjectId("614339719adb38f03c33eb7d"), "title" : "Compas", "date" : "2021-08-31T15:23:36-05:04", "description" : "Herramienta para hacer circulos.", "code" : "SADA4554165DA", "price" : 3200.12, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-405/48/11_precission_compasses_geography_map_plan_circule_distance-256.png", "stock" : 4 }
+{ "_id" : ObjectId("6143397a9adb38f03c33eb80"), "title" : "Lapiz", "date" : "2021-08-31T15:23:36-05:05", "description" : "Herramienta para escribir o dibujar.", "code" : "92100165DA", "price" : 1221, "thumbnail" : "https://cdn1.iconfinder.com/data/icons/drawing-tools-5/512/pencil-256.png", "stock" : 23 }
+{ "_id" : ObjectId("614339839adb38f03c33eb87"), "title" : "Borrador", "date" : "2021-08-31T15:23:36-05:06", "description" : "Herramienta para borrar.", "code" : "SJHJOO65DA", "price" : 100, "thumbnail" : "https://cdn0.iconfinder.com/data/icons/education-126/128/9-256.png", "stock" : 12 }
+{ "_id" : ObjectId("6143398c9adb38f03c33eb8a"), "title" : "Escoba", "date" : "2021-08-31T15:23:36-05:07", "description" : "Herramienta para barrer.", "code" : "KOJLSA65DA", "price" : 542, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/interior-homedecor-vol-3/512/broom_clean_tool_duster-256.png", "stock" : 32 }
+{ "_id" : ObjectId("614339959adb38f03c33eb8f"), "title" : "Papel", "date" : "2021-08-31T15:23:36-05:08", "description" : "Hojas para escribir", "code" : "S8989265DA", "price" : 2512.78, "thumbnail" : "https://cdn4.iconfinder.com/data/icons/marketing-and-digital-marketing/32/web_file_document-256.png", "stock" : 123 }
+{ "_id" : ObjectId("6143399c9adb38f03c33eb92"), "title" : "Papelera", "date" : "2021-08-31T15:23:36-05:09", "description" : "Recipiente en el que se depositan papeles usados.", "code" : "FRYYY2131", "price" : 1501, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/scenarium-vol-14/128/015-128.png", "stock" : 8 }
+> db.productos.count({})
+10
+> db.mensajes.count({})
+10
+> db.productos.insert({title:'teclado', date: '2021-08-31T15:23:36-05:09', description: 'Herramienta para escribir en PC.', code: 'FXX2131', price: 1501, thumbnail: 'https://cdn1.iconfinder.com/data/icons/software-hardware/200/software-24-256.png', stock: 43 })
+WriteResult({ "nInserted" : 1 })
+> db.productos.find({price:{$lt:1000}})
+{ "_id" : ObjectId("6143392d9adb38f03c33eb60"), "title" : "Escuadra", "date" : "2021-08-31T15:23:22-05:00", "description" : "Instrumento de dibujo lineal hecho de madera, metal o plástico, que tiene forma de triángulo rectángulo isósceles o está constituido por dos reglas perpendiculares.", "code" : "DSALKDA21", "price" : 123.45, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png", "stock" : 10 }
+{ "_id" : ObjectId("614339529adb38f03c33eb70"), "title" : "Calculadora", "date" : "2021-08-31T15:23:28-05:01", "description" : "Máquina electrónica capaz de efectuar cálculos aritméticos.", "code" : "45462SD4165DA", "price" : 234.56, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png", "stock" : 8 }
+{ "_id" : ObjectId("6143395d9adb38f03c33eb75"), "title" : "Globo Terráqueo", "date" : "2021-08-31T15:23:36-05:02", "description" : "Esfera en cuya superficie se representa la disposición respectiva que tienen las tierras y mares en nuestro planeta.", "code" : "4542ASD4165DA", "price" : 345.67, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png", "stock" : 2 }
+{ "_id" : ObjectId("614339839adb38f03c33eb87"), "title" : "Borrador", "date" : "2021-08-31T15:23:36-05:06", "description" : "Herramienta para borrar.", "code" : "SJHJOO65DA", "price" : 100, "thumbnail" : "https://cdn0.iconfinder.com/data/icons/education-126/128/9-256.png", "stock" : 12 }
+{ "_id" : ObjectId("6143398c9adb38f03c33eb8a"), "title" : "Escoba", "date" : "2021-08-31T15:23:36-05:07", "description" : "Herramienta para barrer.", "code" : "KOJLSA65DA", "price" : 542, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/interior-homedecor-vol-3/512/broom_clean_tool_duster-256.png", "stock" : 32 }
+> db.productos.find({$and: [{price:{$gte:1000}}, {price:{$lte:3000}}]} )
+{ "_id" : ObjectId("6143397a9adb38f03c33eb80"), "title" : "Lapiz", "date" : "2021-08-31T15:23:36-05:05", "description" : "Herramienta para escribir o dibujar.", "code" : "92100165DA", "price" : 1221, "thumbnail" : "https://cdn1.iconfinder.com/data/icons/drawing-tools-5/512/pencil-256.png", "stock" : 23 }
+{ "_id" : ObjectId("614339959adb38f03c33eb8f"), "title" : "Papel", "date" : "2021-08-31T15:23:36-05:08", "description" : "Hojas para escribir", "code" : "S8989265DA", "price" : 2512.78, "thumbnail" : "https://cdn4.iconfinder.com/data/icons/marketing-and-digital-marketing/32/web_file_document-256.png", "stock" : 123 }
+{ "_id" : ObjectId("6143399c9adb38f03c33eb92"), "title" : "Papelera", "date" : "2021-08-31T15:23:36-05:09", "description" : "Recipiente en el que se depositan papeles usados.", "code" : "FRYYY2131", "price" : 1501, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/scenarium-vol-14/128/015-128.png", "stock" : 8 }
+{ "_id" : ObjectId("61433bf8c1fd32df174b245d"), "title" : "teclado", "date" : "2021-08-31T15:23:36-05:09", "description" : "Herramienta para escribir en PC.", "code" : "FXX2131", "price" : 1501, "thumbnail" : "https://cdn1.iconfinder.com/data/icons/software-hardware/200/software-24-256.png", "stock" : 43 }
+> db.productos.find({price:{$gt:3000}} )
+{ "_id" : ObjectId("614339679adb38f03c33eb78"), "title" : "Circulo", "date" : "2021-08-31T15:23:36-05:03", "description" : "Esfera negra con fondo blanco.", "code" : "454PPWQS165DA", "price" : 4000, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/design-set2/32/des32px094-256.png", "stock" : 20 }
+{ "_id" : ObjectId("614339719adb38f03c33eb7d"), "title" : "Compas", "date" : "2021-08-31T15:23:36-05:04", "description" : "Herramienta para hacer circulos.", "code" : "SADA4554165DA", "price" : 3200.12, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-405/48/11_precission_compasses_geography_map_plan_circule_distance-256.png", "stock" : 4 }
+>
+> db.productos.find({},{title:1, _id:0}).limit(1).skip(2).sort({price:1})
+{ "title" : "Calculadora" }
+> db.productos.updateMany({}, {$set:{stock:100}})
+{ "acknowledged" : true, "matchedCount" : 11, "modifiedCount" : 11 }
+> db.productos.updateMany({price:{$gte:4000}}, {$set:{stock:0}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.productos.deleteMany({price:{$lt:1000}})
+{ "acknowledged" : true, "deletedCount" : 5 }
+> db.createUser({user: 'pepe', pwd: 'asd456', roles:[{role:'read', db: 'ecommerce'}]})
+Successfully added user: {
+        "user" : "pepe",
+        "roles" : [
+                {
+                        "role" : "read",
+                        "db" : "ecommerce"
+                }
+        ]
+}
+> exit
+bye
+PS C:\Users\walte> mongo -u pepe -p --authenticationDatabase admin
+MongoDB shell version v4.4.1
+Enter password:
+connecting to: mongodb://127.0.0.1:27017/?authSource=admin&compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("f94fcdbd-4cd4-4104-94a4-51a3c98b426c") }
+MongoDB server version: 4.4.1
+> show dbs
+ecommerce  0.000GB
+> use ecommerce
+switched to db ecommerce
+> db
+ecommerce
+> db.productos.insert({title:'no', price:123, thumbnail:'nop'})
+WriteCommandError({
+        "ok" : 0,
+        "errmsg" : "not authorized on ecommerce to execute command { insert: \"productos\", ordered: true, lsid: { id: UUID(\"f94fcdbd-4cd4-4104-94a4-51a3c98b426c\") }, $db: \"ecommerce\" }",
+        "code" : 13,
+        "codeName" : "Unauthorized"
+})
+> db.productos.deleteMany({price:{$lt:1000}})
+uncaught exception: WriteCommandError({
+        "ok" : 0,
+        "errmsg" : "not authorized on ecommerce to execute command { delete: \"productos\", ordered: true, lsid: { id: UUID(\"f94fcdbd-4cd4-4104-94a4-51a3c98b426c\") }, $db: \"ecommerce\" }",
+        "code" : 13,
+        "codeName" : "Unauthorized"
+}) :
+WriteCommandError({
+        "ok" : 0,
+        "errmsg" : "not authorized on ecommerce to execute command { delete: \"productos\", ordered: true, lsid: { id: UUID(\"f94fcdbd-4cd4-4104-94a4-51a3c98b426c\") }, $db: \"ecommerce\" }",
+        "code" : 13,
+        "codeName" : "Unauthorized"
+})
+WriteCommandError@src/mongo/shell/bulk_api.js:417:48
+executeBatch@src/mongo/shell/bulk_api.js:915:23
+Bulk/this.execute@src/mongo/shell/bulk_api.js:1163:21
+DBCollection.prototype.deleteMany@src/mongo/shell/crud_api.js:432:17
+@(shell):1:1
+> db.productos.find({})
+{ "_id" : ObjectId("6143397a9adb38f03c33eb80"), "title" : "Lapiz", "date" : "2021-08-31T15:23:36-05:05", "description" : "Herramienta para escribir o dibujar.", "code" : "92100165DA", "price" : 1221, "thumbnail" : "https://cdn1.iconfinder.com/data/icons/drawing-tools-5/512/pencil-256.png", "stock" : 100 }
+{ "_id" : ObjectId("614339959adb38f03c33eb8f"), "title" : "Papel", "date" : "2021-08-31T15:23:36-05:08", "description" : "Hojas para escribir", "code" : "S8989265DA", "price" : 2512.78, "thumbnail" : "https://cdn4.iconfinder.com/data/icons/marketing-and-digital-marketing/32/web_file_document-256.png", "stock" : 100 }
+{ "_id" : ObjectId("6143399c9adb38f03c33eb92"), "title" : "Papelera", "date" : "2021-08-31T15:23:36-05:09", "description" : "Recipiente en el que se depositan papeles usados.", "code" : "FRYYY2131", "price" : 1501, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/scenarium-vol-14/128/015-128.png", "stock" : 100 }
+{ "_id" : ObjectId("61433bf8c1fd32df174b245d"), "title" : "teclado", "date" : "2021-08-31T15:23:36-05:09", "description" : "Herramienta para escribir en PC.", "code" : "FXX2131", "price" : 1501, "thumbnail" : "https://cdn1.iconfinder.com/data/icons/software-hardware/200/software-24-256.png", "stock" : 100 }
+{ "_id" : ObjectId("614339679adb38f03c33eb78"), "title" : "Circulo", "date" : "2021-08-31T15:23:36-05:03", "description" : "Esfera negra con fondo blanco.", "code" : "454PPWQS165DA", "price" : 4000, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/design-set2/32/des32px094-256.png", "stock" : 0 }
+{ "_id" : ObjectId("614339719adb38f03c33eb7d"), "title" : "Compas", "date" : "2021-08-31T15:23:36-05:04", "description" : "Herramienta para hacer circulos.", "code" : "SADA4554165DA", "price" : 3200.12, "thumbnail" : "https://cdn3.iconfinder.com/data/icons/education-405/48/11_precission_compasses_geography_map_plan_circule_distance-256.png", "stock" : 100 }
+> db.mensajes.find({})
+{ "_id" : ObjectId("6143326c351d34e912e085fd"), "email" : "saraayala@gmail.com", "mensaje" : "Holaaa" }
+{ "_id" : ObjectId("6143326c351d34e912e085fe"), "email" : "mateogaleano@gmail.com", "mensaje" : "Hola, como vas?" }
+{ "_id" : ObjectId("6143326c351d34e912e085ff"), "email" : "carlosandres@gmail.com", "mensaje" : "Super estoy manejando mongo" }
+{ "_id" : ObjectId("6143326c351d34e912e08600"), "email" : "mariabarrios@gmail.com", "mensaje" : "Que se dice" }
+{ "_id" : ObjectId("6143326c351d34e912e08601"), "email" : "ganzola123@gmail.com", "mensaje" : "Siuuuuu" }
+{ "_id" : ObjectId("6143326c351d34e912e08602"), "email" : "martina@hotmail.com", "mensaje" : "soy un mensaje wiii" }
+{ "_id" : ObjectId("6143326c351d34e912e08603"), "email" : "correofalso321@gmail.com", "mensaje" : "Porque?" }
+{ "_id" : ObjectId("6143326c351d34e912e08604"), "email" : "sololaura@hotmail.com", "mensaje" : "Me gusta" }
+{ "_id" : ObjectId("6143326c351d34e912e08605"), "email" : "americaeslaluz@gmail.com", "mensaje" : "I dont know" }
+{ "_id" : ObjectId("6143326c351d34e912e08606"), "email" : "alberto@gmail.com", "mensaje" : "nose" }
+>
