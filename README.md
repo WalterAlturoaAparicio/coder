@@ -1,15 +1,29 @@
 # coder
 
-para utilizar el servicio web primero debes configurar el archivo .env 
+para utilizar el servicio web primero debes configurar el archivo .env dentro de la carpeta backend
 
-a continuacion despues de haber instalado las dependecias ejecutar estos comandos para la creacion de las tablas:
+para mongo local utilizar la variable MONGOURI
+y ejecutar:
 ```sh
-npm run mensajes
+npm run startmongolocal
 ```
+para mongo cloud utilizar la variable MONGOCLOUD
+```sh
+npm run startmongocloud
+```
+
+para mysql ejectuar primero los siguientes comandos para crear las tablas necesarias
 ```sh
 npm run productos
 ```
-por ultimo correr el comando
+```sh
+npm run carritos
+```
+y ejecutar para levantar el servidor:
+```sh
+npm run startmysql
+```
+para 
 ```sh
 npm run server
 ```
