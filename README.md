@@ -23,7 +23,7 @@ y ejecutar para levantar el servidor:
 ```sh
 npm run startmysql
 ```
-para 
+para firebase
 ```sh
-npm run server
+npm run startfirebase
 ```
