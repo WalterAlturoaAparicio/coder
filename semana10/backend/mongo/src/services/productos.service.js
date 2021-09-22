@@ -12,13 +12,22 @@ export async function saveProduct(data) {
     throw new Error(error);
   }
 }
-export async function getProducts() {
+export async function getProducts(id) {
 	try {
-		const products = await productModel.default.find({})
-		if (!products) {
-			throw new Error('Products not found')
-		}
-		return products
+    if (id) {
+      const product = await productModel.default.findOne({_id: id})
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      return product
+    } else {
+      const products = await productModel.default.find({})
+      if (!products) {
+        throw new Error('Products not found')
+      }
+      return products
+    }
+		
 	} catch (error) {
 		throw new Error(error)
 	}
