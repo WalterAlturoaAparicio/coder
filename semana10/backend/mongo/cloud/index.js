@@ -2,12 +2,12 @@ import express from "express";
 import cors from "cors";
 import emoji from "node-emoji";
 
-import { carritoRouter, productRouter } from "./src/routers/index.js";
-import "./src/db.js";
+import { carritoRouter, productRouter } from "../src/routers/index.js";
+import "./db.js";
 let isAdmin = false;
 
 const app = express();
-const port = 8080;
+const port = 8081;
 
 app.use(cors());
 app.use(express.json());
