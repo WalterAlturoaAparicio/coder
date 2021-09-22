@@ -15,7 +15,7 @@ export async function saveProduct(req, res) {
   };
   try {
     const response = await productService.saveProduct(data);
-    res.status(200).json(response);
+    res.status(200).json({id: response._id});
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -23,7 +23,7 @@ export async function saveProduct(req, res) {
 export async function getProducts(req, res) {
   try {
     const products = await productService.getProducts(req.params.id);
-    res.status(200).json({ products });
+    res.status(200).json( products );
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -43,7 +43,7 @@ export async function updateProduct(req, res) {
   };
   try {
     const product = await productService.updateProduct(data);
-    res.status(200).json({ product });
+    res.status(200).json( product );
   } catch (error) {
     res.status(400).send(error.message);
   }
