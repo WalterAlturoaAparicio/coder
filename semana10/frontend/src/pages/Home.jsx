@@ -18,7 +18,7 @@ const Home = (props) => {
       method: "GET",
     });
     res = await res.json();
-    return res.products;
+    return res;
   }
   async function loadData() {
     const dataServer = await getData();

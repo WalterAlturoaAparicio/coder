@@ -10,7 +10,7 @@ const Productos = (props) => {
     });
     res = await res.json();
     console.log(res)
-    return res.products;
+    return res;
   }
   async function loadProducts() {
     const productos = await getProducts();
