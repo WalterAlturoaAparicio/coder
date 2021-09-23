@@ -12,7 +12,7 @@ mongoose.connect(
   },
   (err) => {
     if (err) console.log(err);
-    else console.log(emoji.get("fire"), "Conectado a la base de datos");
+    else console.log(emoji.get("avocado"), "Conectado a la base de datos");
   }
 );
 

@@ -1,4 +1,4 @@
-{
+export default {
   "type": "service_account",
   "project_id": "coder-2c796",
   "private_key_id": "2478edbbfb0c0d022c6fff60fef25ed58a482df3",

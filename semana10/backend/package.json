@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "startmongolocal": "nodemon --inspect ./mongo/local/index.js",
-    "startmongocloud": "nodemon --inspect ./mongo/cloud/index.js"
+    "startmongocloud": "nodemon --inspect ./mongo/cloud/index.js",
+    "startfirebase": "nodemon --inspect ./firebase/index.js"
   },
   "keywords": [],
   "author": "",
