@@ -3,7 +3,7 @@ import { carritoController } from "../controllers/index.js";
 const router = new express.Router();
 
 // router.get("/", carritoController.getCarritos);
-// router.post("/", carritoController.createCarrito);
+router.post("/", carritoController.createCarrito);
 // router.delete("/:id", carritoController.deleteCarrito);
 // router.get("/:id/productos", carritoController.getProductsCarritoById);
 // router.post("/:id/productos", carritoController.saveProductCarrito);

@@ -1,20 +1,20 @@
 import { carritoService } from "../services/index.js";
 import moment from "moment";
 
-// export async function createCarrito(req, res) {
-//   const { body } = req;
-//   const fecha = moment().format();
-//   const data = {
-//     date: fecha,
-//     products: body.products,
-//   };
-//   try {
-//     const response = await carritoService.createCarrito(data);
-//     res.status(200).json({id: response._id});
-//   } catch (error) {
-//     res.status(400).send({error: error.message});
-//   }
-// }
+export async function createCarrito(req, res) {
+  const { body } = req;
+  const fecha = moment().format();
+  const data = {
+    date: fecha,
+    products: body.products,
+  };
+  try {
+    const response = await carritoService.createCarrito(data);
+    res.status(200).json({result: response});
+  } catch (error) {
+    res.status(400).send({error: error.message});
+  }
+}
 // export async function deleteCarrito(req, res) {
 //   try {
 //     const carrito = await carritoService.deleteCarrito(req.params.id);
