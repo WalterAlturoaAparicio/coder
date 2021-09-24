@@ -13,11 +13,21 @@ export async function saveProduct(data) {
 export async function getProducts(id) {
   try {
     if (id) {
-      const product = (await query.doc(id).get()).data();
+      const doc = query.doc(`${id}`);
+      const product = await doc.get();
       if (!product) {
         throw new Error("Product not found");
       }
-      return product;
+      return {
+        id: product.id,
+        title: product.data().title,
+        date: product.data().date,
+        description: product.data().description,
+        code: product.data().code,
+        price: product.data().price,
+        thumbnail: product.data().thumbnail,
+        stock: product.data().stock,
+      };
     } else {
       let response = await query.get();
       response = response.docs.map((product) => {
@@ -43,12 +53,12 @@ export async function getProducts(id) {
 }
 export async function updateProduct(id, data) {
   try {
-    const exist = (await query.doc(id).get()).data();
+    const exist = (await query.doc(`${id}`).get()).data();
     if (!exist) {
       throw new Error("Product not found");
     }
     await query.doc(id).update(data);
-    const response = (await query.doc(id).get()).data();
+    const response = (await query.doc(`${id}`).get()).data();
     return response;
   } catch (error) {
     throw new Error(error);
@@ -56,11 +66,11 @@ export async function updateProduct(id, data) {
 }
 export async function deleteProduct(id) {
   try {
-    const exist = (await query.doc(id).get()).data();
+    const exist = (await query.doc(`${id}`).get()).data();
     if (!exist) {
       throw new Error("Product not found");
     }
-    await query.doc(id).delete()
+    await query.doc(`${id}`).delete();
     return exist;
   } catch (error) {
     throw new Error(error);

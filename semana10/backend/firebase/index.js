@@ -7,7 +7,7 @@ import "./src/DB/db.js"
 import { carritoRouter, productRouter } from "./src/routers/index.js";
 
 const app = express();
-const port = 8081;
+const port = 8080;
 
 let isAdmin = false;
 
