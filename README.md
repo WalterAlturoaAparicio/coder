@@ -2,7 +2,7 @@
 
 Para utilizar el servicio web primero debes configurar el archivo .env dentro de la carpeta backend (para el caso de mongo)
 
-Para cualquier servidor para ingresar productos al carrito solo hara falta pasarle el id del producto
+Para cualquier servidor para ingresar productos al carrito solo hara falta pasarle el id del producto solamente
 
 Para mongo local utilizar la variable MONGOURI
 
