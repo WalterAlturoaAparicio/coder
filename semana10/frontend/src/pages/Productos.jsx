@@ -9,7 +9,6 @@ const Productos = (props) => {
       method: "GET",
     });
     res = await res.json();
-    console.log(res)
     return res;
   }
   async function loadProducts() {
@@ -54,7 +53,7 @@ const Productos = (props) => {
       <div className="lista">
         {products.map((producto) => {
           return (
-            <form className="cardBox2" key={producto._id}>
+            <form className="cardBox2" key={producto.id}>
               <img src={producto.thumbnail} alt="thumbnail" className="icon" />
               <div>
                 <label htmlFor="info">Fecha de publicación</label>
@@ -105,7 +104,7 @@ const Productos = (props) => {
                 />
                 <br />
                 <button
-                  onClick={() => guardarProducto(producto._id, producto.thumbnail)}
+                  onClick={() => guardarProducto(producto.id, producto.thumbnail)}
                   className="buy"
                   type="button"
                 >
@@ -115,7 +114,7 @@ const Productos = (props) => {
 
               <div>
                 
-                <button onClick={() => eliminarProducto(producto._id)} return false>
+                <button onClick={() => eliminarProducto(producto.id)} return false>
                   <i className="fas fa-times"></i>
                 </button>
               </div>

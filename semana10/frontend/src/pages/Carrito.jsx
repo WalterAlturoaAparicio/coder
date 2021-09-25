@@ -7,7 +7,7 @@ const Carrito = (props) => {
   const [total, setTotal] = React.useState(0);
   let subTotal = 0;
   async function getProducts() {
-    let res = await fetch("http://localhost:8080/api/carrito/1/productos", {
+    let res = await fetch("http://localhost:8080/carritos/tutd3tBCvUjit3USQzWX/productos", {
       method: "GET",
     });
     res = res.json();
@@ -15,7 +15,7 @@ const Carrito = (props) => {
   }
   async function loadProducts() {
     const productos = await getProducts();
-    setProducts(productos.products);
+    setProducts(productos);
   }
   function sumaTotal() {
     products.map((producto) => {
@@ -24,7 +24,7 @@ const Carrito = (props) => {
     setTotal(Math.round(subTotal*100)/100);
   }
   async function eliminarProducto(id) {
-    let res = await fetch(`http://localhost:8080/api/carrito/1/productos/${id}`, {
+    let res = await fetch(`http://localhost:8080/carritos/tutd3tBCvUjit3USQzWX/productos/${id}`, {
       method: "DELETE"
     });
     res = res.json();
