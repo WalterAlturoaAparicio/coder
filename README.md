@@ -32,34 +32,34 @@ npm run startmysql
 ```
 Nota: para el caso de mongo y firebase se puede insertar el producto con el carrito de una vez, en una propiedad 
 - Ejemplo para mongo:
-{
-
-  "products": [
-  
-    "_id": "---id producto---"
-    
-  ]
-  
-}
+>{
+>
+>  "products": [
+>  
+>    "_id": "---id producto---"
+>    
+>  ]
+>  
+>}
 
 - Ejemplo para firebase:
-{
-
-  products: [
-  
-    "id": "---id producto---"
-    
-    ]
-  
-}
+>{
+>
+>  products: [
+>  
+>    "id": "---id producto---"
+>    
+>    ]
+>  
+>}
 
 En ambos casos se puede pasar un products vacio:
 
-{
-
-  "products": []
-
-}
+>{
+>
+>  "products": []
+>
+>}
 
 En el caso de mysql se debe crear primero el carrito.
 
