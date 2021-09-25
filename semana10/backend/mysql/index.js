@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/productos", productRouter.router);
-//app.use("/carritos", carritoRouter.router);
+app.use("/carritos", carritoRouter.router);
 
 app.post("/isAdmin", (req, res) => {
   isAdmin = !isAdmin;
