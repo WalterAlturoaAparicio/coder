@@ -63,4 +63,4 @@ En ambos casos se puede pasar un products vacio:
 
 En el caso de mysql se debe crear primero el carrito.
 
-NOTA: para el frontend solo esta habilitado para trabajar con mysql y debe haber un carrito con id 1 para su correcto funcionamiento
+NOTA: para el frontend solo esta habilitado para trabajar con firebase
