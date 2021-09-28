@@ -1,18 +1,14 @@
-const express = require("express");
-const handlebars = require("express-handlebars");
-const emoji = require("node-emoji");
-const moment = require("moment");
-const { Server: HttpServer } = require("http");
-const { Server: IOServer } = require("socket.io");
+import express from "express";
+import handlebars from "express-handlebars";
+import emoji from "node-emoji";
+import moment from "moment";
+import { Server as HttpServer } from "http";
+import { Server as IOServer } from "socket.io";
 
-const favicon = require('serve-favicon');
+import favicon from 'serve-favicon';
 
-const routerMessages = require('./routers/messages.router.js');
-const serviceMessage = require('./services/messages.service.js');
-
-const routerProducts = require('./routers/products.router.js');
-const serviceProducts = require('./services/products.service.js');
-
+import { productsRouter } from './routers/index.js';
+import { productsService } from "./services/index.js";
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
@@ -21,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const port = 8080;
-app.use(favicon(__dirname + '/favicon.jpg'));
+app.use(favicon('./src/favicon.jpg'));
 
 
 io.on("connection", async (socket) => {
@@ -37,7 +33,7 @@ io.on("connection", async (socket) => {
       description: data.description,
       code: data.code
     }
-    await serviceProducts.saveProduct(newProduct);
+    await productsService.saveProduct(newProduct);
     socket.emit("notificacionBack")
     io.sockets.emit("dataBackend");
   });
@@ -49,19 +45,20 @@ io.on("connection", async (socket) => {
       message: data.message,
       date: fecha
     }
-    await serviceMessage.saveMessage(newMessage);
+    console.log(newMessage);
+    //await saveMessage(newMessage);
     io.sockets.emit("messageBackend");
   });
 });
 
-app.use('/mensajes', routerMessages);
-app.use('/productos', routerProducts);
+//app.use('/mensajes', routerMessages);
+app.use('/productos', productsRouter.router);
 app.engine(
   "hbs",
   handlebars({
     extname: ".hbs",
     defaultLayout: "index.hbs",
-    layoutsDir: __dirname + "/views/layouts",
+    layoutsDir: "./src/views/layouts",
   })
 );
 app.set("views", "./src/views");

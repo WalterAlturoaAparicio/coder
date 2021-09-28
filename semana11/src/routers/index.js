@@ -1,0 +1,1 @@
+export * as productsRouter from "./products.router.js"

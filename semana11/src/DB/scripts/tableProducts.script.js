@@ -1,4 +1,6 @@
-const knex = require('../dbProducts.js')
+import knex from '../db.js';
+
+// eslint-disable-next-line no-extra-semi
 ;(async function () {
 	try {
 		/* ------------------------------ tabla existe ------------------------------ */
