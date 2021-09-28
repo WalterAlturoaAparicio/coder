@@ -19,6 +19,7 @@
     "faker": "^5.5.3",
     "knex": "^0.95.11",
     "moment": "^2.29.1",
+    "mongoose": "^6.0.8",
     "morgan": "^1.10.0",
     "node-emoji": "^1.11.0",
     "serve-favicon": "^2.5.0",

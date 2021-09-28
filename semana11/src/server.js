@@ -7,8 +7,11 @@ import { Server as IOServer } from "socket.io";
 
 import favicon from 'serve-favicon';
 
-import { productsRouter } from './routers/index.js';
+import { productsRouter, messagesRouter } from './routers/index.js';
 import { productsService } from "./services/index.js";
+
+import "./DB/dbMongo.js";
+
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
@@ -51,8 +54,9 @@ io.on("connection", async (socket) => {
   });
 });
 
-//app.use('/mensajes', routerMessages);
 app.use('/productos', productsRouter.router);
+app.use("/mensajes", messagesRouter.router);
+
 app.engine(
   "hbs",
   handlebars({
