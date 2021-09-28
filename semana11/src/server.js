@@ -2,6 +2,8 @@ import express from "express";
 import handlebars from "express-handlebars";
 import emoji from "node-emoji";
 import moment from "moment";
+import dotenv from 'dotenv';
+import morgan from 'morgan';
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
 
@@ -9,19 +11,24 @@ import favicon from 'serve-favicon';
 
 import { productsRouter, messagesRouter } from './routers/index.js';
 import { productsService } from "./services/index.js";
+import ProductTestRoute from "./routers/products-test.router.js";
 
 import "./DB/dbMongo.js";
 
+dotenv.config();
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const port = 8080;
 app.use(favicon('./src/favicon.jpg'));
+app.use(morgan('dev'));
+app.use('/productos', productsRouter.router);
+app.use("/mensajes", messagesRouter.router);
+app.use("/api/productos-test", new ProductTestRoute())
 
+const port = process.env.PORT | 8080;
 
 io.on("connection", async (socket) => {
   const fecha = moment().format();
@@ -40,7 +47,6 @@ io.on("connection", async (socket) => {
     socket.emit("notificacionBack")
     io.sockets.emit("dataBackend");
   });
-  
   socket.emit("messageBackend");
   socket.on("messageFront", async (data) => {
     const newMessage = {
@@ -54,8 +60,7 @@ io.on("connection", async (socket) => {
   });
 });
 
-app.use('/productos', productsRouter.router);
-app.use("/mensajes", messagesRouter.router);
+
 
 app.engine(
   "hbs",
@@ -69,10 +74,11 @@ app.set("views", "./src/views");
 app.set("view engine", "hbs");
 
 app.get("/", async (req, res) => {
-  
   res.render("main");
 });
-
+app.get("/productos-test", async (req, res) => {
+  res.render("test");
+});
 httpServer.listen(port, () => {
   console.log(emoji.get("computer"), "Servidor Puerto: " + port);
 });
