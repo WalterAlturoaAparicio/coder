@@ -28,7 +28,7 @@ app.use('/productos', productsRouter.router);
 app.use("/mensajes", messagesRouter.router);
 app.use("/api/productos-test", new ProductTestRoute())
 
-const port = process.env.PORT | 8080;
+const port = process.env.PORT | 8081;
 
 io.on("connection", async (socket) => {
   const fecha = moment().format();

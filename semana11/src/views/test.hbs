@@ -41,7 +41,7 @@
     traerProductos();
   })
   function loadProductos() {
-    fetch('http://localhost:8080/api/productos-test/popular', {
+    fetch('http://localhost:8081/api/productos-test/popular', {
       method: 'POST'
     })
     .then(res => res.json())
@@ -50,12 +50,11 @@
     })
   }
   function traerProductos() {
-    fetch('http://localhost:8080/api/productos-test', {
+    fetch('http://localhost:8081/api/productos-test', {
       method: 'GET'
     })
     .then(res => res.json())
     .then(datos => {
-      console.log(datos)
       tabla(datos);
     })
   }
@@ -84,7 +83,7 @@
   }
   loadProductos()
   function addProduct() { 
-    fetch("http://localhost:8080/api/productos-test",{
+    fetch("http://localhost:8081/api/productos-test",{
       method: "POST",
     })
     traerProductos(); 
