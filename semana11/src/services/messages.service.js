@@ -35,16 +35,8 @@ export async function getMessages() {
       messages
     }
     const dataNormalize = normalize(data, article);
-    //print(dataNormalize);
-    // console.log('Original', JSON.stringify(data).length)
-    // console.log('Normalizada', JSON.stringify(dataNormalize).length)
-    // const denData = denormalize(
-    //   dataNormalize.result,
-    //   article,
-    //   dataNormalize.entities
-    // );
-    // print(denData);
-    return dataNormalize;
+    const dataBits = JSON.stringify(data).length;
+    return {dataNormalize, dataBits};
   } catch (error) {
     throw new Error(error);
   }

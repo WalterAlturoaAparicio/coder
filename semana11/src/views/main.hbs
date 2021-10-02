@@ -86,6 +86,8 @@
   <div style="width: 500px; margin: 20px; background-color: rgb(207, 207, 207);">
     <div style="padding: 10px; margin: 20px;">
       <h4 style="color: #0000ff; font-weight: bold; ">Centro de Mensajes</h4>
+      <h5 style="color: #0000ff; font-weight: bold; " id="compresion"></h5>
+
       <fieldset>
         <form onsubmit="addMessage(); return false">
           <div class="form-group">
@@ -209,12 +211,12 @@
       const article = new normalizr.schema.Entity('articles', {
         comments: [comment]
       });
-      const newDatos = normalizr.denormalize(datos.entities, article, datos.result)
+      const newDatos = normalizr.denormalize(datos.dataNormalize.entities, article, datos.dataNormalize.result)
       
-      drawMessages(newDatos.articles.mensajes)
+      drawMessages(newDatos.articles.mensajes, JSON.stringify(newDatos).length, datos.dataBits)
     })
   }
-  function drawMessages(datos) {
+  function drawMessages(datos, compresion, original) {
     let inner = '';
     for (let message of datos.messages) {
       inner+=`<div><strong style="color: blue;">${message.author.id}</strong> [<i style="color: rgb(238, 84, 84)">${message.date}</i>] : ${message.text} <img
@@ -224,6 +226,9 @@
               style ="height: 40px; border-radius: 25px;"
           /></div>`
     }
+    const total=Math.round((((original-compresion)*100/original)*100)/100);
+    const porcentaje = `Compresion: ${total}%`;
+    document.getElementById('compresion').innerHTML=porcentaje;
     document.getElementById('messages').innerHTML=inner;
   }
   function tabla(datos) {
