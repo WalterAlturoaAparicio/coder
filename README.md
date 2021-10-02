@@ -6,3 +6,9 @@ Ejecutar:
 ```sh
 npm run server
 ```
+NOTA: ya hay productos en la DB sqlite, 
+
+aun asi, para reiniciar la DB de los productos ejecutar: 
+```sh
+npm run productos
+```
