@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const author = mongoose.Schema({
+export const author = mongoose.Schema({
   id: {
     type: String,
   },
@@ -20,7 +20,7 @@ const author = mongoose.Schema({
   },
 });
 
-const Schema = mongoose.Schema({
+export const Schema = mongoose.Schema({
   text: {
     type: String,
     required: true,
@@ -30,6 +30,10 @@ const Schema = mongoose.Schema({
     type: author,
     required: true,
   },
+  date: {
+    type: String,
+    require: true
+  }
 });
 
 export default mongoose.model("mensajes", Schema);

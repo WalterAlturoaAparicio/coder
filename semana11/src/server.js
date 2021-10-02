@@ -10,7 +10,7 @@ import { Server as IOServer } from "socket.io";
 import favicon from 'serve-favicon';
 
 import { productsRouter, messagesRouter } from './routers/index.js';
-import { productsService } from "./services/index.js";
+import { productsService, messagesService } from "./services/index.js";
 import ProductTestRoute from "./routers/products-test.router.js";
 
 import "./DB/dbMongo.js";
@@ -28,7 +28,7 @@ app.use('/productos', productsRouter.router);
 app.use("/mensajes", messagesRouter.router);
 app.use("/api/productos-test", new ProductTestRoute())
 
-const port = process.env.PORT | 8081;
+const port = process.env.PORT | 8080;
 
 io.on("connection", async (socket) => {
   const fecha = moment().format();
@@ -50,12 +50,12 @@ io.on("connection", async (socket) => {
   socket.emit("messageBackend");
   socket.on("messageFront", async (data) => {
     const newMessage = {
-      email: data.email,
-      message: data.message,
+      author: data.author,
+      text: data.message,
       date: fecha
     }
     console.log(newMessage);
-    //await saveMessage(newMessage);
+    await messagesService.saveMessage(newMessage);
     io.sockets.emit("messageBackend");
   });
 });

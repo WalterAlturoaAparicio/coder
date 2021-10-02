@@ -98,7 +98,56 @@
               required
             />
           </div>
-          
+          <div class="form-group">
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              placeholder="Enter name"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name="apellido"
+              id="apellido"
+              placeholder="Enter last name"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="number"
+              name="edad"
+              id="edad"
+              placeholder="Enter age"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name="alias"
+              id="alias"
+              placeholder="Enter nickname"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name="avatar"
+              id="avatar"
+              placeholder="Enter url avatar"
+              class="form-control"
+              required
+            />
+          </div>
           <div style="background-color: beige;" id="messages"></div>
           
           <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px;">
@@ -153,13 +202,27 @@
     })
     .then(res => res.json())
     .then(datos => {
-      drawMessages(datos)
+      const user = new normalizr.schema.Entity("users");
+      const comment = new normalizr.schema.Entity("comments", {
+        commenter: user,
+      });
+      const article = new normalizr.schema.Entity('articles', {
+        comments: [comment]
+      });
+      const newDatos = normalizr.denormalize(datos.entities, article, datos.result)
+      
+      drawMessages(newDatos.articles.mensajes)
     })
   }
   function drawMessages(datos) {
     let inner = '';
     for (let message of datos.messages) {
-      inner+=`<div><strong style="color: blue;">${message.email}</strong> [<i style="color: rgb(238, 84, 84)">${message.fecha}</i>] : ${message.message}</div>`
+      inner+=`<div><strong style="color: blue;">${message.author.id}</strong> [<i style="color: rgb(238, 84, 84)">${message.date}</i>] : ${message.text} <img
+              src=${message.author.avatar}
+              alt="foto"
+              class="img-fluid img-thumbnail"
+              style ="height: 40px; border-radius: 25px;"
+          /></div>`
     }
     document.getElementById('messages').innerHTML=inner;
   }
@@ -194,7 +257,17 @@
     document.getElementById('email').value='';
     const message = document.getElementById('message').value;
     document.getElementById('message').value='';
-    socket.emit('messageFront',{ email, message });
+    const nombre = document.getElementById('nombre').value;
+    document.getElementById('nombre').value='';
+    const apellido = document.getElementById('apellido').value;
+    document.getElementById('apellido').value='';
+    const edad = document.getElementById('edad').value;
+    document.getElementById('edad').value='';
+    const alias = document.getElementById('alias').value;
+    document.getElementById('alias').value='';
+    const avatar = document.getElementById('avatar').value;
+    document.getElementById('avatar').value='';
+    socket.emit('messageFront',{ author: {id:email, nombre,apellido,edad,alias,avatar}, message });
     traerMensajes();
   } 
   function addProduct() { 

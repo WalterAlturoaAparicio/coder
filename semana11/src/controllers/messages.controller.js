@@ -1,5 +1,5 @@
 import { messagesService } from "../services/index.js";
-
+import moment from "moment";
 export async function saveMessage(req, res) {
   const { body } = req;
   const data = {
@@ -11,7 +11,8 @@ export async function saveMessage(req, res) {
         edad: body.author.edad,
         alias: body.author.alias,
         avatar: body.author.avatar,
-    }
+    },
+    date: moment().format()
   };
   try {
     const response = await messagesService.saveMessage(data);
