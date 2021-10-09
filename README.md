@@ -1,6 +1,5 @@
 # coder
-
-para utilizar el servicio web primero debes configurar el archivo .env (MONGOURI)
+para utilizar el servicio web primero debes configurar el archivo .env (MONGOURI) y (SECRET)
 
 Ejecutar: 
 ```sh
