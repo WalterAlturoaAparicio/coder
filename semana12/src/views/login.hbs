@@ -1,7 +1,8 @@
+
 <div style="display: flex; flex-direction: row; margin-left: 75px; margin-right: 75px; background-color: rgb(199, 255, 234); margin-top: 30px;">
   <div style="width: 100%; margin-right: 100px; " >
     <fieldset>
-      <form onsubmit="return false" style="margin: 20px;" >
+      <form onsubmit="login();" style="margin: 20px;" >
         <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Login de usuario</h4>
         <div class="form-group">
           <label for="title" style="font-weight: bold;">Ingrese su nombre</label>
@@ -24,3 +25,17 @@
     
   </div>
 </div>
+<script>
+  const socket = io();
+  socket.on('login', (data)=>{
+    if (data) {
+      window.location.replace(`/login?user=${data.user}`);
+      //window.location.reload();
+    }
+  });
+  function login() {
+    const user = document.getElementById('user').value; 
+    socket.emit('login', {user});
+  }
+  
+</script>

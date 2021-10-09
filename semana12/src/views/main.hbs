@@ -1,5 +1,13 @@
 <div id="notificacion"></div>
+<div  class="alert alert-success" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
+  <div><h3>Bienvenido {{user}}</h3></div>
+  <div>
+    <button id="logout" onclick="logout()" class="btn btn-dark" style="align-self: flex-end;">Desloguear</button>
+  </div>
+</div>
 <div style="display: flex; flex-direction: row;">
+  
+  
   <div style="width: 300px; margin-right: 100px;" >
     <fieldset>
       <form onsubmit="addProduct(); return false" style="margin: 20px;" >
@@ -185,7 +193,7 @@
   }) 
   socket.on("notificacionBack", ()=> {
     traerProductos();
-    const inner = `<div class="alert alert-success style="width: 100px">Producto Ingresado correctamente</div>`;
+    const inner = `<div class="alert alert-success" style="width: 100px">Producto Ingresado correctamente</div>`;
     document.getElementById('notificacion').innerHTML=inner;
   })
   socket.on("dataBackend", ()=> {
@@ -292,5 +300,8 @@
       stock: 1
     });
     traerProductos(); 
+  }
+  function logout() {
+    socket.emit("logout");
   }
 </script>

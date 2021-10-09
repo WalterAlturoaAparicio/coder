@@ -36,8 +36,6 @@ export async function getMessages() {
     }
     const dataNormalize = normalize(data, article);
     const dataBits = JSON.stringify(data).length;
-    console.log(data);
-    console.log(dataNormalize);
     return {dataNormalize, dataBits};
   } catch (error) {
     throw new Error(error);
