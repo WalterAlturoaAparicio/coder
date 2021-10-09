@@ -28,30 +28,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(favicon("./src/favicon.jpg"));
 app.use(morgan("dev"));
-app.use("/productos", productsRouter.router);
-app.use("/mensajes", messagesRouter.router);
-app.use("/api/productos-test", new ProductTestRoute());
+app.use("/productos", sessionMiddleware, productsRouter.router);
+app.use("/mensajes", sessionMiddleware, messagesRouter.router);
+app.use("/api/productos-test", sessionMiddleware, new ProductTestRoute());
 const options = { userNewUrlParser: true, useUnifiedTopology: true };
 
-let user = "no name";
 
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGOURI,
-      options,
-    }),
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.SECRET,
-    cookie: {
-      maxAge: 60000,
-    },
-    rolling: true,
-  })
-);
-
+const sessionMiddleware = session({
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGOURI,
+    options,
+  }),
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.SECRET,
+  cookie: {
+    maxAge: 60000,
+  },
+  rolling: true,
+});
 const port = process.env.PORT | 8080;
+
+io.use((socket, next)=>{
+  sessionMiddleware(socket.request, socket.request.res, next)
+})
+app.use(sessionMiddleware);
 
 io.on("connection", async (socket) => {
   const fecha = moment().format();
@@ -82,10 +83,12 @@ io.on("connection", async (socket) => {
     io.sockets.emit("messageBackend");
   });
   socket.on("login", (data) => {
-    user = data;
-    socket.emit("login", data);
+    if(data)
+      socket.emit("login", data);
+    else
+      socket.emit("login", socket.request.session.user);
   });
-  if (!socket.handshake.headers.cookie) {
+  if (!socket.request.session.user) {
     socket.emit("logout")
   }
   socket.on("logout", (data)=>{
@@ -106,12 +109,14 @@ app.set("view engine", "hbs");
 
 app.get("/", Middlewares.auth, async (req, res) => {
   res.render("main", {
-    user
+    user: req.session.user
   });
 });
 
 app.get("/login", (req, res) => {
-  
+  if (req.session.user) {
+    return res.redirect("/");
+  }
   const { user } = req.query;
   req.session.user = user;
   req.session.admin = true;
@@ -121,20 +126,24 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.get('/logout', Middlewares.auth, (req, res) => {
-  
+app.get('/logout', sessionMiddleware, (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login")
+  }
+  let user = req.session.user;
   req.session.destroy((err) => {
     if (!err) {
       res.render("logout", {
         user
       })
     } else {
+      console.log(err);
       res.json({ err })
     }
   })
 })
 
-app.get("/productos-test", async (req, res) => {
+app.get("/productos-test", sessionMiddleware, async (req, res) => {
   res.render("test");
 });
 httpServer.listen(port, () => {
