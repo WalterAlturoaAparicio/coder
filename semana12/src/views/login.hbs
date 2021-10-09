@@ -1,5 +1,5 @@
-
 <div style="display: flex; flex-direction: row; margin-left: 75px; margin-right: 75px; background-color: rgb(199, 255, 234); margin-top: 30px;">
+
   <div style="width: 100%; margin-right: 100px; " >
     <fieldset>
       <form onsubmit="login();" style="margin: 20px;" >
@@ -30,12 +30,16 @@
   socket.on('login', (data)=>{
     if (data) {
       window.location.replace(`/login?user=${data.user}`);
-      //window.location.reload();
+      window.location.replace('/login')
     }
   });
   function login() {
     const user = document.getElementById('user').value; 
-    socket.emit('login', {user});
+    socket.emit('login', user);
   }
+  /*socket.on('logout', (data)=>{
+    const inner = `<div class="alert alert-info" style="width: 100%">Hasta Luego ${data.user}</div>`;
+    document.getElementById('notificacion').innerHTML=inner;
+  })*/
   
 </script>

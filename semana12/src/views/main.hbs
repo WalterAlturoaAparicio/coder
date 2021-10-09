@@ -2,7 +2,7 @@
 <div  class="alert alert-success" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
   <div><h3>Bienvenido {{user}}</h3></div>
   <div>
-    <button id="logout" onclick="logout()" class="btn btn-dark" style="align-self: flex-end;">Desloguear</button>
+    <button id="logout" onclick="logout('{{user}}')" class="btn btn-dark">Desloguear</button>
   </div>
 </div>
 <div style="display: flex; flex-direction: row;">
@@ -10,7 +10,7 @@
   
   <div style="width: 300px; margin-right: 100px;" >
     <fieldset>
-      <form onsubmit="addProduct(); return false" style="margin: 20px;" >
+      <form onsubmit="addProduct('{{user}}', {{admin}}); return false" style="margin: 20px;" >
         <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Ingrese
           el Producto</h4>
         <div class="form-group">
@@ -97,7 +97,7 @@
       <h5 style="color: #0000ff; font-weight: bold; " id="compresion"></h5>
 
       <fieldset>
-        <form onsubmit="addMessage(); return false">
+        <form onsubmit="addMessage('{{user}}', {{admin}}); return false">
           <div class="form-group">
             <input
               type="email"
@@ -265,43 +265,56 @@
   }
   traerProductos()
   traerMensajes()
-  function addMessage(){ 
-    document.getElementById('notificacion').innerHTML='';
-    const email = document.getElementById('email').value;
-    document.getElementById('email').value='';
-    const message = document.getElementById('message').value;
-    document.getElementById('message').value='';
-    const nombre = document.getElementById('nombre').value;
-    document.getElementById('nombre').value='';
-    const apellido = document.getElementById('apellido').value;
-    document.getElementById('apellido').value='';
-    const edad = document.getElementById('edad').value;
-    document.getElementById('edad').value='';
-    const alias = document.getElementById('alias').value;
-    document.getElementById('alias').value='';
-    const avatar = document.getElementById('avatar').value;
-    document.getElementById('avatar').value='';
-    socket.emit('messageFront',{ author: {id:email, nombre,apellido,edad,alias,avatar}, message });
-    traerMensajes();
+  function addMessage(user, admin){ 
+    if (!admin) {
+      logout(user);
+    }else {
+
+      document.getElementById('notificacion').innerHTML='';
+      const email = document.getElementById('email').value;
+      document.getElementById('email').value='';
+      const message = document.getElementById('message').value;
+      document.getElementById('message').value='';
+      const nombre = document.getElementById('nombre').value;
+      document.getElementById('nombre').value='';
+      const apellido = document.getElementById('apellido').value;
+      document.getElementById('apellido').value='';
+      const edad = document.getElementById('edad').value;
+      document.getElementById('edad').value='';
+      const alias = document.getElementById('alias').value;
+      document.getElementById('alias').value='';
+      const avatar = document.getElementById('avatar').value;
+      document.getElementById('avatar').value='';
+      socket.emit('messageFront',{ author: {id:email, nombre,apellido,edad,alias,avatar}, message });
+      traerMensajes();
+    }
   } 
-  function addProduct() { 
-    const title = document.getElementById('title').value; 
-    document.getElementById('title').value=''; 
-    const price = document.getElementById('price').value; 
-    document.getElementById('price').value='';
-    const thumbnail = document.getElementById('thumbnail').value; 
-    document.getElementById('thumbnail').value='';  
-    socket.emit('dataFront',{ 
-      title,
-      price, 
-      thumbnail,
-      description: 'no description',
-      code: 'no code',
-      stock: 1
-    });
-    traerProductos(); 
+  function addProduct(user, admin) { 
+    if (!admin) {
+      logout(user);
+    } else {
+        const title = document.getElementById('title').value; 
+        document.getElementById('title').value=''; 
+        const price = document.getElementById('price').value; 
+        document.getElementById('price').value='';
+        const thumbnail = document.getElementById('thumbnail').value; 
+        document.getElementById('thumbnail').value='';  
+        socket.emit('dataFront',{ 
+          title,
+          price, 
+          thumbnail,
+          description: 'no description',
+          code: 'no code',
+          stock: 1
+        });
+        traerProductos(); 
+    }
   }
-  function logout() {
-    socket.emit("logout");
+  function logout(user) {
+    console.log(user);
+    socket.emit("logout", {user});
   }
+  socket.on('logout', data=>{
+    window.location.replace('/logout')
+  })
 </script>

@@ -30,7 +30,7 @@ app.use(favicon("./src/favicon.jpg"));
 app.use(morgan("dev"));
 app.use("/productos", productsRouter.router);
 app.use("/mensajes", messagesRouter.router);
-app.use("/api/productos-test", Middlewares.auth, new ProductTestRoute());
+app.use("/api/productos-test", new ProductTestRoute());
 const options = { userNewUrlParser: true, useUnifiedTopology: true };
 
 let user = "no name";
@@ -82,9 +82,15 @@ io.on("connection", async (socket) => {
     io.sockets.emit("messageBackend");
   });
   socket.on("login", (data) => {
-    user = data.user;
+    user = data;
     socket.emit("login", data);
   });
+  if (!socket.handshake.headers.cookie) {
+    socket.emit("logout")
+  }
+  socket.on("logout", (data)=>{
+    socket.emit("logout", data);
+  })
 });
 
 app.engine(
@@ -100,21 +106,35 @@ app.set("view engine", "hbs");
 
 app.get("/", Middlewares.auth, async (req, res) => {
   res.render("main", {
-    user,
+    user
   });
 });
 
 app.get("/login", (req, res) => {
-  if (req.session.user) {
-    return res.redirect("/");
-  }
+  
   const { user } = req.query;
   req.session.user = user;
   req.session.admin = true;
+  if (req.session.user) {
+    return res.redirect("/");
+  }
   res.render("login");
 });
 
-app.get("/productos-test", Middlewares.auth, async (req, res) => {
+app.get('/logout', Middlewares.auth, (req, res) => {
+  
+  req.session.destroy((err) => {
+    if (!err) {
+      res.render("logout", {
+        user
+      })
+    } else {
+      res.json({ err })
+    }
+  })
+})
+
+app.get("/productos-test", async (req, res) => {
   res.render("test");
 });
 httpServer.listen(port, () => {
