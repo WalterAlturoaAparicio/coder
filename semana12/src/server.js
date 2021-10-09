@@ -24,15 +24,7 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(favicon("./src/favicon.jpg"));
-app.use(morgan("dev"));
-app.use("/productos", sessionMiddleware, productsRouter.router);
-app.use("/mensajes", sessionMiddleware, messagesRouter.router);
-app.use("/api/productos-test", sessionMiddleware, new ProductTestRoute());
 const options = { userNewUrlParser: true, useUnifiedTopology: true };
-
 
 const sessionMiddleware = session({
   store: MongoStore.create({
@@ -47,6 +39,15 @@ const sessionMiddleware = session({
   },
   rolling: true,
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(favicon("./src/favicon.jpg"));
+app.use(morgan("dev"));
+app.use("/productos", sessionMiddleware, productsRouter.router);
+app.use("/mensajes", sessionMiddleware, messagesRouter.router);
+app.use("/api/productos-test", sessionMiddleware, new ProductTestRoute());
+
 const port = process.env.PORT | 8080;
 
 io.use((socket, next)=>{
