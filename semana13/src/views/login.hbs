@@ -1,0 +1,45 @@
+<div style="display: flex; flex-direction: row; margin-left: 75px; margin-right: 75px; background-color: rgb(199, 255, 234); margin-top: 30px;">
+
+  <div style="width: 100%; margin-right: 100px; " >
+    <fieldset>
+      <form onsubmit="login();" style="margin: 20px;" >
+        <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Login de usuario</h4>
+        <div class="form-group">
+          <label for="title" style="font-weight: bold;">Ingrese su nombre</label>
+          <input
+            type="text"
+            name="user"
+            id="user"
+            placeholder="Enter your user"
+            class="form-control"
+            required
+          />
+
+        </div>
+        <div>
+          <button id="send" type="submit" class="btn btn-success">Enviar</button>
+        </div>
+
+      </form>
+    </fieldset>
+    
+  </div>
+</div>
+<script>
+  const socket = io();
+  socket.on('login', (data)=>{
+    if (data) {
+      window.location.replace(`/login?user=${data.user}`);
+      window.location.replace('/login')
+    }
+  });
+  function login() {
+    const user = document.getElementById('user').value; 
+    socket.emit('login', user);
+  }
+  /*socket.on('logout', (data)=>{
+    const inner = `<div class="alert alert-info" style="width: 100%">Hasta Luego ${data.user}</div>`;
+    document.getElementById('notificacion').innerHTML=inner;
+  })*/
+  
+</script>
