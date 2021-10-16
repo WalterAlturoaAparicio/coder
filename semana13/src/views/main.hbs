@@ -1,8 +1,9 @@
 <div id="notificacion"></div>
 <div  class="alert alert-success" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
-  <div><h3>Bienvenido {{user}}</h3></div>
+  <div><h3>Bienvenido {{username}}</h3></div>
   <div>
-    <button id="logout" onclick="logout('{{user}}')" class="btn btn-dark">Desloguear</button>
+    <a class="btn btn-dark" href="/logout"><span class="fa fa-sign-out"></span><span>Desloguear</span></a>
+    {{!-- <button id="logout" onclick="logout('{{user}}')" class="btn btn-dark">Desloguear</button> --}}
   </div>
 </div>
 <div style="display: flex; flex-direction: row;">
@@ -10,7 +11,7 @@
   
   <div style="width: 300px; margin-right: 100px;" >
     <fieldset>
-      <form onsubmit="addProduct('{{user}}', {{admin}}); return false" style="margin: 20px;" >
+      <form onsubmit="addProduct('{{user}}'); return false" style="margin: 20px;" >
         <h4 style="color: #0000ff; font-weight: bold; padding-bottom: 20px;">Ingrese
           el Producto</h4>
         <div class="form-group">
@@ -97,7 +98,7 @@
       <h5 style="color: #0000ff; font-weight: bold; " id="compresion"></h5>
 
       <fieldset>
-        <form onsubmit="addMessage('{{user}}', {{admin}}); return false">
+        <form onsubmit="addMessage('{{user}}'); return false">
           <div class="form-group">
             <input
               type="email"
@@ -181,6 +182,7 @@
   </div>
 </div>
 <script>
+  //console.log(user)
   const socket = io();
   socket.on("errores", (error)=> {
     console.log(error);
@@ -265,10 +267,10 @@
   }
   traerProductos()
   traerMensajes()
-  function addMessage(user, admin){ 
-    if (!admin) {
-      logout(user);
-    }else {
+  function addMessage(user){ 
+    //if (!admin) {
+      //logout(user);
+    //}else {
 
       document.getElementById('notificacion').innerHTML='';
       const email = document.getElementById('email').value;
@@ -287,12 +289,12 @@
       document.getElementById('avatar').value='';
       socket.emit('messageFront',{ author: {id:email, nombre,apellido,edad,alias,avatar}, message });
       traerMensajes();
-    }
+    //}
   } 
-  function addProduct(user, admin) { 
-    if (!admin) {
-      logout(user);
-    } else {
+  function addProduct(user) { 
+    //if (!admin) {
+    //  logout(user);
+    //} else {
         const title = document.getElementById('title').value; 
         document.getElementById('title').value=''; 
         const price = document.getElementById('price').value; 
@@ -308,13 +310,13 @@
           stock: 1
         });
         traerProductos(); 
-    }
+    //}
   }
-  function logout(user) {
+  /*function logout(user) {
     console.log(user);
     socket.emit("logout", {user});
   }
   socket.on('logout', data=>{
     window.location.replace('/logout')
-  })
+  })*/
 </script>

@@ -4,22 +4,29 @@ import emoji from "node-emoji";
 import moment from "moment";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import cors from "cors";
+import passport from "./utils/passport-local.util.js";
+import pkg from "passport-facebook";
+const { Strategy } = pkg;
+//import path from "path";
+
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
 
 import favicon from "serve-favicon";
 
-import { productsRouter, messagesRouter } from "./routers/index.js";
+import { productsRouter, messagesRouter, authRouter } from "./routers/index.js";
 import { productsService, messagesService } from "./services/index.js";
 import ProductTestRoute from "./routers/products-test.router.js";
 
 import MongoStore from "connect-mongo";
 import session from "express-session";
-import * as Middlewares from "./middlewares/auth.middleware.js";
+//import * as Middlewares from "./middlewares/auth.middleware.js";
 
 import "./DB/dbMongo.js";
 
 dotenv.config();
+
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
@@ -35,25 +42,50 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   secret: process.env.SECRET,
   cookie: {
-    maxAge: 60000,
+    maxAge: 30000,
   },
   rolling: true,
 });
+passport.use(
+  new Strategy(
+    {
+      clientID: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
+      callbackURL: "/auth/facebook/callback",
+      profileFields: ["id", "displayName", "photos"],
+      scope: ["email"],
+    },
+    (accessToken, refreshToken, userProfile, done) => {
+      console.log(userProfile);
+      return done(null, userProfile);
+    }
+  )
+);
+app.use(passport.initialize());
 
+// passport.serializeUser((user, done) => {
+//   done(null, user.id);
+// });
+// passport.deserializeUser((id, done) => {
+//   done(null, id);
+// });
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(favicon("./src/favicon.jpg"));
 app.use(morgan("dev"));
+app.use(sessionMiddleware);
+app.use(passport.session());
 app.use("/productos", sessionMiddleware, productsRouter.router);
 app.use("/mensajes", sessionMiddleware, messagesRouter.router);
+app.use("/", authRouter.router);
 app.use("/api/productos-test", sessionMiddleware, new ProductTestRoute());
 
 const port = process.env.PORT | 8080;
 
-io.use((socket, next)=>{
-  sessionMiddleware(socket.request, socket.request.res, next)
-})
-app.use(sessionMiddleware);
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, socket.request.res, next);
+});
 
 io.on("connection", async (socket) => {
   const fecha = moment().format();
@@ -84,65 +116,85 @@ io.on("connection", async (socket) => {
     io.sockets.emit("messageBackend");
   });
   socket.on("login", (data) => {
-    if(data)
-      socket.emit("login", data);
-    else
-      socket.emit("login", socket.request.session.user);
+    if (data) socket.emit("login", data);
+    else socket.emit("login", socket.request.session.user);
   });
   if (!socket.request.session.user) {
-    socket.emit("logout")
+    socket.emit("logout");
   }
-  socket.on("logout", (data)=>{
+  socket.on("logout", (data) => {
     socket.emit("logout", data);
-  })
-});
-
-app.engine(
-  "hbs",
-  handlebars({
-    extname: ".hbs",
-    defaultLayout: "index.hbs",
-    layoutsDir: "./src/views/layouts",
-  })
-);
-app.set("views", "./src/views");
-app.set("view engine", "hbs");
-
-app.get("/", Middlewares.auth, async (req, res) => {
-  res.render("main", {
-    user: req.session.user
   });
 });
 
-app.get("/login", (req, res) => {
-  if (req.session.user) {
-    return res.redirect("/");
+app.engine(".hbs", handlebars({ extname: ".hbs", defaultLayout: "index.hbs" }));
+app.set("views", "./src/views");
+app.set("view engine", "hbs");
+app.use(express.static("public"));
+
+app.get("/index", (req, res) => {
+  if (req.isAuthenticated()) {
+    const user = req.user;
+    console.log("entraaaaaaaa");
+    res.render("main", {
+      username: user.username,
+    });
+  } else {
+    console.log("entra acaa");
+    res.redirect("/login");
   }
-  const { user } = req.query;
-  req.session.user = user;
-  req.session.admin = true;
-  if (req.session.user) {
-    return res.redirect("/");
-  }
-  res.render("login");
 });
 
-app.get('/logout', sessionMiddleware, (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/login")
-  }
-  let user = req.session.user;
-  req.session.destroy((err) => {
-    if (!err) {
-      res.render("logout", {
-        user
-      })
-    } else {
-      console.log(err);
-      res.json({ err })
-    }
+app.get("/failLogin", (req, res) => {
+  console.log("Login error");
+  res.render("login-error", {});
+});
+
+// app.get("/login", (req, res) => {
+//   res.sendFile(path.resolve() + "/public/login.html");
+// });
+app.get("/auth/facebook", passport.authenticate("facebook"));
+
+app.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/",
+    failureRedirect: "/failLogin",
   })
-})
+);
+// app.get("/logout", (req, res) => {
+//   req.logout();
+//   res.redirect("/");
+// });
+// app.get("/login", (req, res) => {
+//   if (req.session.user) {
+//     return res.redirect("/");
+//   }
+//   const { user } = req.query;
+//   req.session.user = user;
+//   req.session.admin = true;
+//   if (req.session.user) {
+//     return res.redirect("/");
+//   }
+//   res.render("login");
+// });
+
+// app.get("/logout", sessionMiddleware, (req, res) => {
+//   if (!req.session.user) {
+//     return res.redirect("/login");
+//   }
+//   let user = req.session.user;
+//   req.session.destroy((err) => {
+//     if (!err) {
+//       res.render("logout", {
+//         user,
+//       });
+//     } else {
+//       console.log(err);
+//       res.json({ err });
+//     }
+//   });
+// });
 
 app.get("/productos-test", sessionMiddleware, async (req, res) => {
   res.render("test");
