@@ -18,6 +18,7 @@ import favicon from "serve-favicon";
 import { productsRouter, messagesRouter, authRouter } from "./routers/index.js";
 import { productsService, messagesService } from "./services/index.js";
 import ProductTestRoute from "./routers/products-test.router.js";
+import { AuthController } from "./controllers/index.js";
 
 import MongoStore from "connect-mongo";
 import session from "express-session";
@@ -42,7 +43,7 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   secret: process.env.SECRET,
   cookie: {
-    maxAge: 30000,
+    maxAge: 600000,
   },
   rolling: true,
 });
@@ -115,16 +116,16 @@ io.on("connection", async (socket) => {
     await messagesService.saveMessage(newMessage);
     io.sockets.emit("messageBackend");
   });
-  socket.on("login", (data) => {
-    if (data) socket.emit("login", data);
-    else socket.emit("login", socket.request.session.user);
-  });
-  if (!socket.request.session.user) {
-    socket.emit("logout");
-  }
-  socket.on("logout", (data) => {
-    socket.emit("logout", data);
-  });
+  // socket.on("login", (data) => {
+  //   if (data) socket.emit("login", data);
+  //   else socket.emit("login", socket.request.session.user);
+  // });
+  // if (!socket.request.session.user) {
+  //   socket.emit("logout");
+  // }
+  // socket.on("logout", (data) => {
+  //   socket.emit("logout", data);
+  // });
 });
 
 app.engine(".hbs", handlebars({ extname: ".hbs", defaultLayout: "index.hbs" }));
@@ -136,8 +137,10 @@ app.get("/index", (req, res) => {
   if (req.isAuthenticated()) {
     const user = req.user;
     console.log("entraaaaaaaa");
+
     res.render("main", {
-      username: user.username,
+      username: user.displayName,
+      photo: user.photos[0].value,
     });
   } else {
     console.log("entra acaa");
@@ -158,9 +161,10 @@ app.get("/auth/facebook", passport.authenticate("facebook"));
 app.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
-    successRedirect: "/",
+    successRedirect: "/index",
     failureRedirect: "/failLogin",
-  })
+  }),
+  AuthController.postLogin
 );
 // app.get("/logout", (req, res) => {
 //   req.logout();

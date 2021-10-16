@@ -5,7 +5,8 @@ export function getLogin(req, res) {
     const user = req.user
     console.log('Usuario logueado!')
     res.render('main', {
-      username: user.username,
+      username: user.displayName,
+      photo: user.photos[0].value
     })
   } else {
     console.log('No esta registrado')

@@ -10,7 +10,7 @@ function isValidPassword(user, password) {
 }
 
 passport.use('login', new Strategy(
-  (username, password, done) => {
+  (displayName, password, done) => {
     // try {
     //   const user = await userService.getUser();
     //   if (!isValidPassword(user, password)){
@@ -21,7 +21,7 @@ passport.use('login', new Strategy(
     // } catch (error) {
     //   return done(null,error)
     // }
-    UserModel.default.findOne({ username }, (err, user) => {
+    UserModel.default.findOne({ displayName }, (err, user) => {
       if (err) return done(err)
       if (!user) {
         console.log('Usuario no encontrado!')
@@ -42,15 +42,15 @@ function createHash(password) {
 
 passport.use('signup', new Strategy({
   passReqToCallback:true
-}, (req, username, password, done) => {
-  UserModel.default.findOne({ username }, (err,user) => {
+}, (req, displayName, password, done) => {
+  UserModel.default.findOne({ displayName }, (err,user) => {
     if (err) return done(err)
     if (user) {
         console.log('El usuario existe!')
         return done(null, false)
     }
     const newUser = {
-      username,
+      displayName,
       password : createHash(password),
       email:req.body.email,
       firstName:req.body.firstName,
@@ -68,11 +68,12 @@ passport.use('signup', new Strategy({
 ))
 
 passport.serializeUser((user, done) => {
-  done(null,user.id)
+  done(null,user)
 })
 
-passport.deserializeUser((id, done) => {
-  UserModel.default.findById(id, done)
+passport.deserializeUser((user, done) => {
+  //UserModel.default.findById(id, done)
+  done(null, user)
 })
 
 export default passport

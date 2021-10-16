@@ -1,7 +1,12 @@
 import mongoose from 'mongoose'
-
+const photo = new mongoose.Schema({
+  value: {
+    type: String,
+    required: true
+  }
+})
 const Schema = new mongoose.Schema({
-  username: {
+  displayName: {
     type: String,
     required:true
   },
@@ -21,7 +26,10 @@ const Schema = new mongoose.Schema({
     type: String,
     required:true
   },
-  
+  photos: {
+    type: [photo],
+    default: [{value: 'https://cdn0.iconfinder.com/data/icons/leto-ui-generic-1/64/leto-04-128.png'}]
+  }
   },
   { timestamps: true }
 )
