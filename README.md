@@ -1,5 +1,5 @@
 # coder
-para utilizar el servicio web primero debes configurar el archivo .env (MONGOURI) y (SECRET)
+para utilizar el servicio web primero debes configurar el archivo .env (MONGOURI), (SECRET), (FACEBOOK_ID), (FACEBOOK_SECRET)
 
 Ejecutar: 
 ```sh
