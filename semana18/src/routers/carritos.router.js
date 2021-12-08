@@ -2,7 +2,7 @@ import express from "express";
 import { carritoController } from "../controllers/index.js";
 const router = new express.Router();
 
-router.get("/", carritoController.getCarritos);
+router.get("/", carritoController.getCarrito);
 router.post("/", carritoController.createCarrito);
 router.delete("/:id", carritoController.deleteCarrito);
 router.get("/:id/productos", carritoController.getProductsCarritoById);

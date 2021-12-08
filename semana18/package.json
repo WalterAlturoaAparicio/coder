@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
@@ -20,12 +21,15 @@
     "express-handlebars": "^5.3.3",
     "express-session": "^1.17.2",
     "moment": "^2.29.1",
+    "mongodb": "^4.2.1",
     "mongoose": "^5.9.29",
     "morgan": "^1.10.0",
     "node-emoji": "^1.11.0",
+    "nodemailer": "^6.7.2",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "twilio": "^3.71.3"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

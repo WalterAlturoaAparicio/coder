@@ -32,7 +32,6 @@ const Schema = new mongoose.Schema({
   }, 
   phoneNumber: {
     type: String,
-    required: true
   },
   photos: {
     type: [photo],

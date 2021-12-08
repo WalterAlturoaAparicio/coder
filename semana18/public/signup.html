@@ -19,7 +19,7 @@
 
       <h1>SIGNUP</h1>
       <br>
-      <form id="myform" class="form" role="form" action="/signup" method="post" autocomplete="off">
+      <form id="myform" class="myform" role="form" action="/signup" method="post" autocomplete="off"  onsubmit="changePhone();">
         <label>username</label>
         <div class="form-group">
           <input id="username" name='username' class="form-control" type="text" required>
@@ -50,7 +50,7 @@
         <label>Phone</label>
         
         <div class="form-group">
-          <input id="phone" type="tel" name="phone" required />
+          <input id="phone" type="tel" name="phone" minlength="10"/>
         </div> 
         <div class="form-group">
           <input class="btn btn-success my-3" type="submit" value="Singup">
@@ -63,12 +63,12 @@
   <script>
     const phoneInputField = document.querySelector("#phone");
     const phoneInput = window.intlTelInput(phoneInputField, {
+      preferredCountries: ["us", "co", "ar", "de"],
       utilsScript:
       "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
     });
-    document.querySelector("#myform").submit = ()=>{
-      document.getElementById("phone").textContent = phoneInput.getNumber();
-      console.log(document.getElementById("phone").textContent);
+    function changePhone() {
+      document.getElementById("phone").value = phoneInput.getNumber()
       return true;
     }
     // const data = new URLSearchParams();

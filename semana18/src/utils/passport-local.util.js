@@ -3,6 +3,9 @@ import pkg from "passport-local";
 const { Strategy } = pkg;
 import passport from 'passport'
 import { userModel } from '../models/index.js'
+import { sendMailEthereal } from "../services/mail.service.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 function isValidPassword(user, password) {
   return bcrypt.compareSync(password,user.password)
@@ -48,7 +51,7 @@ passport.use('signup', new Strategy({
         console.log('El usuario existe!')
         return done(null, false)
     }
-    console.log(req.body);
+    //console.log(req.body);
     const age = calcularEdad(req.body.age);
     
     const newUser = {
@@ -58,11 +61,25 @@ passport.use('signup', new Strategy({
       firstName:req.body.firstName,
       lastName:req.body.lastName,
       age,
-
+      phoneNumber: req.body.phone
     }
 
     userModel.default.create(newUser, (err, user) => {
       if (err) return done(err)
+      sendMailEthereal({
+        from:  process.env.MAIL,
+        to: ["rudolph.wuckert6@ethereal.email", process.env.MAIL],
+        subject: "Nuevo registro",
+        html: `<p>
+        Usuario creado: <br/>
+        Name: ${newUser.firstName} ${newUser.lastName}<br/>
+        Email: ${newUser.email}<br/>
+        Age: ${age}<br/>
+        UserName: ${displayName}<br/>
+        phoneNumber: ${newUser.phoneNumber}<br/>
+        </p>`,
+        
+      });
       console.log('Usuario creado')
       return done(null, user)
     })

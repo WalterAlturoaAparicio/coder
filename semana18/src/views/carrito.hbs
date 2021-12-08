@@ -1,0 +1,91 @@
+<div id="notificacion"></div>
+<nav style="display: flex; width: 100%; height: 50px; flex-direction: row; background-color: rgb(12, 12, 12);">
+  <ul class="navbar-nav ml-auto" style="align-content: space-around; flex-direction: row;">
+    <li class="nav-item" style="margin-right: 20px; margin-top: 5px;">
+      <a class="btn btn-dark" onclick="redireccionar('/index')" style="color: white;"><span class="fa fa-sign-out"></span><span>Home</span></a>
+    </li>
+    <li class="nav-item" style="margin-right: 20px;margin-top: 5px;">
+      <a class="btn btn-dark" href="/carrito"><span class="fa fa-sign-out"></span><span>Carrito</span></a>
+    </li>
+    <li class="nav-item" style="margin-right: 20px;margin-top: 5px;">
+      <a class="btn btn-dark" href="/logout"><span class="fa fa-sign-out"></span><span>Desloguear</span></a>
+    </li>
+  </ul>
+</nav>
+<div class="alert alert-dark" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
+  <div style="display: flex; flex-direction: row;"><img src='{{photo}}' alt="foto" class="img-fluid img-thumbnail"
+      style="height: 40px; border-radius: 25px; margin-right: 10px;" />
+    <h4>Tu Carrito </h4>
+    <div style="display: none;" id="carrito">{{id_cart}}</div>
+  </div>
+</div>
+<div style="display: flex; flex-direction: row;">
+  <div style="width: 65%; margin-right: 100px;">
+    <div style="margin: 20px;">
+      <table class="table table-striped" style="table-layout:fixed; border-spacing: 0px;">
+        <thead>
+          <tr>
+            <th style="width: 20px; overflow:hidden; white-space: nowrap;">Producto</th>
+            <th style="width: 50px; overflow:hidden; white-space: nowrap;">Nombre</th>
+            <th style="width: 20px; overflow:hidden; white-space: nowrap;">Code</th>
+            <th style="width: 20px; text-align: center; overflow:hidden; white-space: nowrap; ">Precio</th>
+            <th style="width: 20px; text-align: center; overflow:hidden; white-space: nowrap; ">Eliminar</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {{#each products}}
+          {{#if this}}
+          <tr>
+            <td><img src={{this.thumbnail}} alt="thumbnail" class="img-fluid img-thumbnail" style="height: 60px" /></td>
+            <td class="info" style="padding-top: 25px; overflow:hidden; white-space: nowrap;">{{this.title}}</td>
+            <td class="info" style="padding-top: 25px; overflow:hidden; white-space: nowrap;">{{this.code}}</td>
+            <td class="info" style="text-align: center; padding-top: 25px; overflow:hidden; white-space: nowrap;">
+              {{this.price}}</td>
+            <td style="text-align: center;">
+              <button onclick="eliminarProducto('{{this._id}}')" style="background: none;
+                    color: inherit;
+                    border: none;
+                    padding: 0;
+                    font: inherit;
+                    cursor: pointer;
+                    outline: inherit;
+                    margin-top: 15px;">
+                <i class="fas fa-times"></i>
+              </button>
+            </td>
+          </tr>
+          {{/if}}
+          {{/each}}
+
+        </tbody>
+
+      </table>
+      <div style="float: right;">
+        <h2>TOTAL: ${{total}}</h2>
+        <button class="btn btn-success my-3" onclick="comprar()">Comprar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+  let carrito = document.getElementById("carrito").textContent;
+
+  function eliminarProducto(id_prod) {
+    fetch(`http://localhost:8080/carritos/${carrito}/productos/${id_prod}`, {
+      method: 'DELETE',
+    }).then((res) => location.href = "/carrito");
+  }
+  function comprar() {
+    if (confirm("Confirmar compra")) {
+
+      redireccionar(`/comprar/${carrito}`);
+    }
+  }
+  function redireccionar(pagina) {
+    location.href = pagina;
+  }
+</script>

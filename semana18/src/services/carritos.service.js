@@ -22,13 +22,18 @@ export async function deleteCarrito(id) {
     throw new Error(error);
   }
 }
-export async function getCarritos() {
+export async function getCarrito(user) {
   try {
-    const carritos = await carritoModel.default.find({});
-    if (!carritos) {
-      throw new Error("Products not found");
+    if (user) {
+      const carrito = await carritoModel.default.findOne({user: user});
+      if (!carrito) {
+        return null;
+      }
+      //console.log(carrito);
+      return carrito;
     }
-    return carritos;
+    return null;
+
   } catch (error) {
     throw new Error(error);
   }

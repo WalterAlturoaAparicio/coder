@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
-
 const Schema = mongoose.Schema({
-  date: {
-    type: Date,
-    required: true,
-  },
   products: [
     {
       ref: "productos",
@@ -14,8 +9,9 @@ const Schema = mongoose.Schema({
   user: {
     ref: "users",
     type: mongoose.Schema.Types.ObjectId,
-  }
-
-});
-
+    required: true
+  },
+  //createdAt: { type: Date, expires: 120 }
+}, { timestamps: true }
+);
 export default mongoose.model("carritos", Schema);

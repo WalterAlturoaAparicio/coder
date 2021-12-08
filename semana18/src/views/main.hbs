@@ -1,0 +1,129 @@
+<style>
+  td {
+    border: 1px solid black;
+    word-break: break-word;
+  }
+</style>
+<div id="notificacion" style="width: 100%;"></div>
+<nav style="display: flex; width: 100%; height: 50px; flex-direction: row; background-color: rgb(12, 12, 12);">
+  <ul class="navbar-nav ml-auto" style="align-content: space-around; flex-direction: row;">
+    <li class="nav-item" style="margin-right: 20px; margin-top: 5px;">
+      <a class="btn btn-dark" href="/"><span class="fa fa-sign-out"></span><span>Home</span></a>
+    </li>
+    <li class="nav-item" style="margin-right: 20px;margin-top: 5px;">
+      <a class="btn btn-dark" href="/carrito"><span class="fa fa-sign-out"></span><span>Carrito</span></a>
+    </li>
+    <li class="nav-item" style="margin-right: 20px;margin-top: 5px;">
+      <a class="btn btn-dark" href="/logout"><span class="fa fa-sign-out"></span><span>Desloguear</span></a>
+    </li>
+  </ul>
+</nav>
+<div class="alert alert-dark" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
+  <div style="display: flex; flex-direction: row;"><img src='{{photo}}' alt="foto" class="img-fluid img-thumbnail"
+      style="height: 40px; border-radius: 25px; margin-right: 10px;" />
+    <h4>Bienvenido {{username}}</h4>
+  </div>
+</div>
+
+<div style="display: flex; flex-direction: row;">
+
+
+  <div style="width: 100%; margin-right: 100px;">
+    <div style="margin: 20px;">
+      <table class="table table-dark" style="table-layout:fixed; border-spacing: 0px;">
+        <thead>
+          <tr>
+            <th style="width: 10%;">Nombre</th>
+            <th style="width: 55%;">Description</th>
+            <th style="width: 6%; text-align: center;  ">Precio</th>
+            <th style="width: 5%; text-align: center;  ">Foto</th>
+            <th style="width: 5%; text-align: center;  ">Agregar</th>
+
+          </tr>
+        </thead>
+        <tbody id="contenido">
+
+        </tbody>
+
+      </table>
+      <div id="error-productos"></div>
+    </div>
+
+  </div>
+
+</div>
+<script>
+
+  function traerProductos() {
+    fetch(`http://localhost:8080/productos`)
+      .then(res => res.json())
+      .then(datos => {
+        //console.log(datos)
+        tabla(datos);
+      })
+  }
+
+  function agregarAlCarrito(cart, id_prod, title) {
+    //console.log("+++++++++++++++++++++++++++++++++",cart);
+    const data = {
+      _id: id_prod
+    }
+    fetch(`http://localhost:8080/carritos/${cart}/productos`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      let inner = ''
+      if (res.status === 200)
+        inner += `<div class="alert alert-success">Producto ${title} Ingresado al carrito</div>`;
+      else 
+        inner = `<div class="alert alert-warning">El producto ya esta en el carrito</div>`;
+      document.getElementById('notificacion').innerHTML = inner;
+
+    })
+  }
+  function tabla(datos) {
+    let inner = '';
+    if (!datos.error) {
+      for (let product of datos) {
+        inner += `
+        <tr style="font-size: 18px; line-height: 0px;">
+          <td style="overflow:hidden; white-space: nowrap;">${product.title}</td>
+          <td style="overflow:hidden; white-space: nowrap;">${product.description}</td>
+          <td style="text-align: center; overflow:hidden; white-space: nowrap;">$${product.price}</td>
+          <td style="text-align: center;"><img
+              src=${product.thumbnail}
+              alt="foto"
+              class="img-fluid img-thumbnail"
+              style="height: 50px"
+          /></td>
+          <td style="text-align: center;">
+            <button onclick={agregarAlCarrito('{{user}}','${product._id}',"${product.title}")} 
+              style="background: none;
+                    color: inherit;
+                    border: none;
+                    padding: 0;
+                    font: inherit;
+                    cursor: pointer;
+                    outline: inherit;
+                    margin-top: 15px;">
+              <a style="color: transparent; text-shadow: 0 0 0 white;">
+                🛒
+              </a>
+            </button>
+          </td>
+        </tr>
+        `
+      }
+      document.getElementById('contenido').innerHTML = inner;
+    } else {
+      inner += `<div class="alert alert-warning">No hay productos</div>`
+      document.getElementById('error-productos').innerHTML = inner;
+    }
+
+  }
+  traerProductos();
+
+</script>

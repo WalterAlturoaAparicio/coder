@@ -34,7 +34,7 @@ export function getSignup(req, res){
 export function postSignup(req, res) {
   const user = req.user
   //logger.info(`Method: ${req.method} Url: ${req.url}`)
-  res.sendFile(path.resolve()+'/public/index.html')
+  res.redirect("/index");
 }
 
 export function getFailSignup(req, res) {

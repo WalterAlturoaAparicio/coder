@@ -7,6 +7,7 @@ export async function createCarrito(req, res) {
   const data = {
     date: fecha,
     products: body.products,
+    user: body.user
   };
   try {
     const response = await carritoService.createCarrito(data);
@@ -34,10 +35,11 @@ export async function getProductsCarritoById(req, res) {
     res.status(400).send({error: error.message});
   }
 }
-export async function getCarritos(req, res) {
+export async function getCarrito(req, res) {
   try {
-    const carritos = await carritoService.getCarritos();
-    res.status(200).json(carritos)
+    //console.log(req.user);
+    const carrito = await carritoService.getCarrito(req.user);
+    res.status(200).json(carrito)
   } catch (error) {
     res.status(404).send({error: error.message});
   }
@@ -45,6 +47,7 @@ export async function getCarritos(req, res) {
 export async function saveProductCarrito(req, res) {
   try {
     const { body } = req;
+    //console.log(body);
     const carrito = await carritoService.saveProductCarrito(req.params.id, body._id);
     res.status(200).json(carrito);
 
