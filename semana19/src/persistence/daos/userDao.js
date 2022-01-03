@@ -3,10 +3,16 @@ import { asDto } from '../dtos/userDto.js'
 import { UserModel } from '../../DB/models/index.js'
 
 export default class UsersDaoDb {
- 
+    static instancia;
+
     constructor(cnxStr) {
-        this.cnxStr = cnxStr
-        this.users = UserModel.default
+        if(!UsersDaoDb.instancia) {
+            this.cnxStr = cnxStr
+            this.users = UserModel.default
+            UsersDaoDb.instancia = this
+        } else {
+            return instancia
+        }
     }
   
     async init() {
